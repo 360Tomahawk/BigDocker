@@ -11,16 +11,10 @@ export default class SageCells extends React.Component{
 
   addCell = () => {
     this.setState({numCells: this.state.numCells + 1});
-    console.log("adding cell");
   }
 
-  loadScript(name) { 
-    var ns = document.createElement('script'); 
-    ns.src=name; 
-    document.getElementsByTagName('HEAD').item(0).appendChild(ns); 
-  }
-
-  getCells() {
+  //TODO REPLACE THIS FUNCTION
+  renderCells() {
     console.log("drawing cells");
     var cellArray = [];
     for (var i = 0; i < this.state.numCells; i++) {
@@ -34,11 +28,21 @@ export default class SageCells extends React.Component{
     return cellArray;
   }
 
+  componentDidUpdate() {
+    // //run makeSageCell here
+    // DONT FORGET TO CALL window. THIS GIVES ACCESS TO THE WHOLE SAGECELL SCRIPT
+
+    window.sagecell.makeSagecell({inputLocation: 'div.compute',
+                         evalButtonText: 'Evaluate',
+                         linked: true});
+  }
+
   render() {
     return (
       <div>
         <h1>{this.state.numCells}</h1>
-        {this.getCells()}
+        {/* TODO REPLACE THIS FUNCTION */}
+        {this.renderCells()}
         <button id="addCell" onClick={this.addCell}>Add new cell</button>
       </div>
     );

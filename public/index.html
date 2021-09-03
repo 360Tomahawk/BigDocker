@@ -18,17 +18,13 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <title>React App</title>
 
-    <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+    <script id="SageScript" src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
     
     <script>
-    // Make *any* div with class 'compute' a Sage cell
-    function refreshSage() {
-      sagecell.makeSagecell({inputLocation: 'div.compute',
-                         evalButtonText: 'Evaluate',
-                         linked: true});
-      console.log("refresh");
-    }
-    refreshSage();
+    // First run of makeSagecell for the initial X cells
+    sagecell.makeSagecell({inputLocation: 'div.compute',
+                        evalButtonText: 'Evaluate',
+                        linked: true});
     </script>
     <style>
       .sagecell_fullScreen.sagecell_icon-resize-full {
@@ -39,9 +35,4 @@
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
   </body>
-  <script>
-    var button = document.getElementById("addCell");
-    button.addEventListener("click", refreshSage);
-    console.log("listening for click");
-  </script>
 </html>
