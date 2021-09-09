@@ -1,53 +1,53 @@
-import React from "react";
+import classes from "../css/Main.module.css";
+import React, { useState, useEffect } from "react";
 
-export default class SageCells extends React.Component{
+const SageCells = () => {
+  // useState(2) means the initialised value is 2
+  const [cellPos, setCellPos] = useState(2);
 
-  constructor() {
-    super();
-    this.state = {
-      cellPos: 0 //default number of cells??
-    }
-  }
+  const add = () => {
+    let nodes = document.getElementById("mainDiv").children;
+    // set the display to block based on the index
+    nodes[cellPos].style.display = "block";
+    // increase the index by 1
+    setCellPos(cellPos + 1);
+  };
 
-  spawnCells = (numberOfCells) => {
-    for (let i = 0; i < numberOfCells; i++) {
-      var div = document.createElement("div");
+  const loadCells = () => {
+    console.log("creating 100 cells");
+    for (let i = 0; i < 100; i++) {
+      let div = document.createElement("div");
       div.setAttribute("class", "compute");
       div.style.display = "none";
-      document.getElementById("cellHolder").appendChild(div);
+      document.getElementById("mainDiv").appendChild(div);
     }
 
-    window.sagecell.makeSagecell({inputLocation: 'div.compute',
-                        evalButtonText: 'Evaluate',
-                        linked: true});
-  }
+    window.sagecell.makeSagecell({
+      inputLocation: "div.compute",
+      evalButtonText: "Evaluate",
+      linked: true,
+    });
+  };
 
-  componentDidMount() {
-    this.spawnCells(100);
-    var c = document.getElementById("cellHolder").childElementCount;
+  // should only load this function once
+  useEffect(() => {
+    loadCells();
+
+    // not sure why the initial value will be 102, thats why i set the cellPos to 2
+    var c = document.getElementById("mainDiv").childElementCount;
     console.log("number of cells created: " + c);
-  }
+  }, []);
 
-  addCell = () => {
-    var cellHolder = document.getElementById("cellHolder").children;
-    cellHolder[this.state.cellPos].style.display = "block";
-    this.setState({cellPos: this.state.cellPos + 1});
-  }
-
-  deleteCell = (cellAtPos) => {
-      this.setState({cellPos: this.state.cellPos - 1});
-      //window.sagecell.deleteSagecell(this.state.cellInfo[cellAtPos]);
-      //this.state.cellInfo.splice(cellAtPos, 1);
-  }
-
-  render() {
-    return (
-      <div>
-        Start off by clicking "Add new cell" below!
+  return (
+    <React.Fragment>
+      <button onClick={add}>Add new cell</button>
+      <div id="mainDiv">
+        Type your own Sage computation below and click “Evaluate”.
+        <div class="compute"></div>
         <br></br>
-        <button id="addCell" onClick={this.addCell}>Add new cell</button>
-        <div id="cellHolder"></div>
       </div>
-    );
-  }
+    </React.Fragment>
+  );
 };
+
+export default SageCells;
