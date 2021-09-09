@@ -1,51 +1,58 @@
-import classes from "../css/Main.module.css";
 import React, { useState, useEffect } from "react";
 
 const SageCells = () => {
-  // useState(2) means the initialised value is 2
-  const [cellPos, setCellPos] = useState(2);
+  const [cellPos, setCellPos] = useState(0);
 
-  const add = () => {
-    let nodes = document.getElementById("mainDiv").children;
-    // set the display to block based on the index
+  const addCell = () => {
+    let nodes = document.getElementById("cellHolder").children;
+    // set the display to show based on the current cellpos
     nodes[cellPos].style.display = "block";
     // increase the index by 1
     setCellPos(cellPos + 1);
   };
 
-  const loadCells = () => {
-    console.log("creating 100 cells");
-    for (let i = 0; i < 100; i++) {
+  const deleteCell = (cellInfo) => {
+    //TODO: PROPERLY GET THE CELLINFO
+  };
+
+  const loadCells = (numberOfCells) => {
+    for (let i = 0; i < numberOfCells; i++) {
       let div = document.createElement("div");
       div.setAttribute("class", "compute");
       div.style.display = "none";
-      document.getElementById("mainDiv").appendChild(div);
+      document.getElementById("cellHolder").appendChild(div);
     }
 
-    window.sagecell.makeSagecell({
+    let cellStuff = window.sagecell.makeSagecell({
       inputLocation: "div.compute",
       evalButtonText: "Evaluate",
-      linked: true,
+      linked: true
     });
+    console.log(cellStuff);
   };
 
-  // should only load this function once
+  // this is similar to page onload, runs only once on the page
   useEffect(() => {
-    loadCells();
+    loadCells(100);
 
-    // not sure why the initial value will be 102, thats why i set the cellPos to 2
-    var c = document.getElementById("mainDiv").childElementCount;
-    console.log("number of cells created: " + c);
+    //set first cell to show
+    var cellHolderDiv = document.getElementById("cellHolder");
+    cellHolderDiv.children[0].style.display = "block";
+    setCellPos(cellPos + 1);
+
+    var childCount = cellHolderDiv.childElementCount;
+    console.log("number of cells created: " + childCount);
   }, []);
 
   return (
     <React.Fragment>
-      <button onClick={add}>Add new cell</button>
-      <div id="mainDiv">
-        Type your own Sage computation below and click “Evaluate”.
-        <div class="compute"></div>
-        <br></br>
+      <div>Type your own Sage computation below and click “Evaluate”.
+      <br></br>
+      <button onClick={addCell}>Add new cell</button>
       </div>
+      
+      <div id="cellHolder"></div>
+
     </React.Fragment>
   );
 };
