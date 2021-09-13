@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import classes from "../css/Main.module.css";
 const Main = () => {
   return (

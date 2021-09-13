@@ -1,13 +1,9 @@
 .container {
   margin: 3rem auto;
-  max-width: 90%;
-  max-height:80%;
-  min-height:700px;
   border-radius: 25px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
   padding: 2rem;
   text-align: center;
-  animation: login-appear 0.8s ease-out forwards;
 }
 .container:hover {
   cursor: default;
@@ -26,15 +22,4 @@
   text-align: center;
   font-size:150%;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-}
-@keyframes login-appear {
-  from {
-    opacity: 0;
-    transform: translateY(3rem);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
