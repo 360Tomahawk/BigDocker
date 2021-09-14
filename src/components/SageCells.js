@@ -18,8 +18,8 @@ if (firebase.apps.length === 0) {
 }
 
 const SageCells = () => {
-  // useState(1) means there exists 1 cell at the start
-  const [cellPos, setCellPos] = useState(1);
+  // useState(0) means point to cell[0]
+  const [cellPos, setCellPos] = useState(0);
   const [update, setUpdate] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [files, setFiles] = useState([]);
@@ -27,22 +27,23 @@ const SageCells = () => {
   const storage = firebase.storage();
 
   const addCell = () => {
-    if (cellPos < 100) {
+    if (cellPos < 99) {
+      // increase the index by 1
+      setCellPos(cellPos + 1);
       let nodes = document.getElementById("cellHolder").children;
-    // set the display to block based on the index
-    nodes[cellPos].style.display = "block";
-    nodes[cellPos].scrollIntoView({behaviour:"smooth"});
-    // increase the index by 1
-    setCellPos(cellPos + 1);
+      // set the display to block based on the index
+      nodes[cellPos].style.display = "block";
+      nodes[cellPos].scrollIntoView({behaviour:"smooth"});
     }
   };
 
   const removeCell = () => {
     //If you have more than 1 cell...
-    if(cellPos > 1){
+    if(cellPos > 0) {
       let nodes = document.getElementById("cellHolder").children;
       nodes[cellPos].style.display = "none";
       //TODO CLEAR THE CELL
+      //nodes[cellPos].getElementsByClassName("cm-variable")[0].innerHTML = "";
       setCellPos(cellPos - 1);
     }
   };
@@ -51,7 +52,12 @@ const SageCells = () => {
     for (let i = 0; i < numberOfCells; i++) {
       let div = document.createElement("div");
       div.setAttribute("class", "compute");
-      div.style.display = "none";
+      if(i == 0) {
+        div.style.display = "block";  
+      }
+      else {
+        div.style.display = "none";
+      }
       document.getElementById("cellHolder").appendChild(div);
     }
 
@@ -66,13 +72,7 @@ const SageCells = () => {
   // should only load this function once
   useEffect(() => {
     loadCells(100);
-
-    // not sure why the initial value will be 102, thats why i set the cellPos to 2
-    let cellHolder = document.getElementById("cellHolder")
-
-    let nodes = cellHolder.children;
-    nodes[0].style.display = "block";
-  }, [cellPos]);
+  }, []);
 
   const onUpload = () => {
     var input = document.createElement("input");
@@ -121,12 +121,12 @@ const SageCells = () => {
       <br></br>
       <span id="link"></span>
       <br></br>
-      <button onClick={addCell}>Add new cell</button>
-      <button onClick={removeCell}>Remove last cell</button>
       <br></br>
       Type your own Sage computation below and click “Evaluate”.
       <br></br>
       <div className={classes.container}id="cellHolder"></div>
+      <button onClick={addCell}>Add new cell</button>
+      <button onClick={removeCell}>Remove last cell</button>
     </React.Fragment>
   );
 };
