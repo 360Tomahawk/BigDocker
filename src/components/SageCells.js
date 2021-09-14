@@ -1,4 +1,4 @@
-import classes from "../css/Main.module.css";
+import classes from "../css/Sagecells.module.css";
 import React, { useState, useEffect } from "react";
 import firebase from "firebase";
 
@@ -18,8 +18,8 @@ if (firebase.apps.length === 0) {
 }
 
 const SageCells = () => {
-  // useState(2) means the initialised value is 2
-  const [cellPos, setCellPos] = useState(0);
+  // useState(1) means there exists 1 cell at the start
+  const [cellPos, setCellPos] = useState(1);
   const [update, setUpdate] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [files, setFiles] = useState([]);
@@ -27,11 +27,24 @@ const SageCells = () => {
   const storage = firebase.storage();
 
   const addCell = () => {
-    let nodes = document.getElementById("mainDiv").children;
+    if (cellPos < 100) {
+      let nodes = document.getElementById("cellHolder").children;
     // set the display to block based on the index
     nodes[cellPos].style.display = "block";
+    nodes[cellPos].scrollIntoView({behaviour:"smooth"});
     // increase the index by 1
     setCellPos(cellPos + 1);
+    }
+  };
+
+  const removeCell = () => {
+    //If you have more than 1 cell...
+    if(cellPos > 1){
+      let nodes = document.getElementById("cellHolder").children;
+      nodes[cellPos].style.display = "none";
+      //TODO CLEAR THE CELL
+      setCellPos(cellPos - 1);
+    }
   };
 
   const loadCells = (numberOfCells) => {
@@ -59,8 +72,6 @@ const SageCells = () => {
 
     let nodes = cellHolder.children;
     nodes[0].style.display = "block";
-    // increase the index by 1
-    setCellPos(cellPos + 1);
   }, [cellPos]);
 
   const onUpload = () => {
@@ -108,14 +119,14 @@ const SageCells = () => {
       <input placeholder="Upload Dataset" onClick={onUpload} id="result" />
       <button onClick={onChangeFile}>Upload Dataset </button>
       <br></br>
-      <br></br>
       <span id="link"></span>
       <br></br>
       <button onClick={addCell}>Add new cell</button>
+      <button onClick={removeCell}>Remove last cell</button>
       <br></br>
       Type your own Sage computation below and click “Evaluate”.
       <br></br>
-      <div className = {classes.container} id="cellHolder"></div>
+      <div className={classes.container}id="cellHolder"></div>
     </React.Fragment>
   );
 };
