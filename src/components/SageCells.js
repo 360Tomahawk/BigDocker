@@ -18,8 +18,8 @@ if (firebase.apps.length === 0) {
 }
 
 const SageCells = () => {
-  // useState(0) means point to cell[0]
-  const [cellPos, setCellPos] = useState(0);
+  // useState(1) means default already has 1 cell
+  const [cellPos, setCellPos] = useState(1);
   const [update, setUpdate] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [files, setFiles] = useState([]);
@@ -30,20 +30,12 @@ const SageCells = () => {
     if (cellPos < 99) {
       // increase the index by 1
       setCellPos(cellPos + 1);
-      let nodes = document.getElementById("cellHolder").children;
-      // set the display to block based on the index
-      nodes[cellPos].style.display = "block";
-      nodes[cellPos].scrollIntoView({behaviour:"smooth"});
     }
   };
 
   const removeCell = () => {
     //If you have more than 1 cell...
-    if(cellPos > 0) {
-      let nodes = document.getElementById("cellHolder").children;
-      nodes[cellPos].style.display = "none";
-      //TODO CLEAR THE CELL
-      //nodes[cellPos].getElementsByClassName("cm-variable")[0].innerHTML = "";
+    if(cellPos > 1) {
       setCellPos(cellPos - 1);
     }
   };
@@ -52,8 +44,8 @@ const SageCells = () => {
     for (let i = 0; i < numberOfCells; i++) {
       let div = document.createElement("div");
       div.setAttribute("class", "compute");
-      if(i == 0) {
-        div.style.display = "block";  
+      if(i === 0) {
+        div.style.display = "block";
       }
       else {
         div.style.display = "none";
@@ -72,7 +64,23 @@ const SageCells = () => {
   // should only load this function once
   useEffect(() => {
     loadCells(100);
-  }, []);
+  }, []); //this is empty so no dependancy
+
+
+  //this is called whenever cellPos is updated
+  useEffect(() => {
+    for(let i = 0; i < 100; i++) {
+      let nodes = document.getElementById("cellHolder").children;
+      if (i <= cellPos) {
+        nodes[i].style.display = "block";
+        nodes[cellPos].scrollIntoView({behaviour:"smooth"});
+      }
+      else {
+        nodes[cellPos].style.display = "none";
+      }
+    };
+  },[cellPos]);
+
 
   const onUpload = () => {
     var input = document.createElement("input");
