@@ -31,12 +31,18 @@ const SageCells = () => {
       // increase the index by 1
       setCellPos(cellPos + 1);
     }
+    else {
+      console.log("Can't have more than 100 cells (this is a limitation by us)!");
+    }
   };
 
   const removeCell = () => {
     //If you have more than 1 cell...
     if(cellPos > 1) {
       setCellPos(cellPos - 1);
+    }
+    else {
+      console.log("Can't remove last cell!");
     }
   };
 
@@ -53,15 +59,28 @@ const SageCells = () => {
       document.getElementById("cellHolder").appendChild(div);
     }
 
-    let cells = window.sagecell.makeSagecell({
+    window.sagecell.makeSagecell({
       inputLocation: "div.compute",
       evalButtonText: "Evaluate",
       linked: true,
     });
-    console.log(cells);
   };
 
-  // should only load this function once
+  const jumpToLast = () => {
+    console.log("Jumping to cell number..." + (cellPos - 1) + ". Recall that cells start from 0!");
+    let nodes = document.getElementById("cellHolder").children;
+    nodes[cellPos - 1].scrollIntoView({behavior:'smooth'});
+  };
+
+  const jumpToTop = () => {
+    window.scroll({
+      top: 0, 
+      left: 0, 
+      behavior: 'smooth'
+    });
+  };
+
+  // consider this a init function
   useEffect(() => {
     loadCells(100);
   }, []); //this is empty so no dependancy
@@ -69,11 +88,12 @@ const SageCells = () => {
 
   //this is called whenever cellPos is updated
   useEffect(() => {
+    console.log("I have " + cellPos + " cells");
+    let nodes = document.getElementById("cellHolder").children;
+    //technically slow implementation luckily its not heavy
     for(let i = 0; i < 100; i++) {
-      let nodes = document.getElementById("cellHolder").children;
       if (i <= cellPos) {
         nodes[i].style.display = "block";
-        nodes[cellPos].scrollIntoView({behaviour:"smooth"});
       }
       else {
         nodes[cellPos].style.display = "none";
@@ -129,12 +149,21 @@ const SageCells = () => {
       <br></br>
       <span id="link"></span>
       <br></br>
-      <br></br>
-      Type your own Sage computation below and click “Evaluate”.
-      <br></br>
+      Type your own computation below and click “Evaluate”.
+      <div class="btn-group">
+        <div class="cell-manipulator">
+          <button onClick={addCell}>Add new cell</button>
+          <button onClick={removeCell}>Remove last cell</button>
+          <button onClick={jumpToLast}>Jump to last cell</button>
+        </div>
+        <div class="notebook-stuff">
+          <button>Open notebook</button>
+          <button>Run all</button>
+          <button>Export notebook</button>
+        </div>
+      </div>
       <div className={classes.container}id="cellHolder"></div>
-      <button onClick={addCell}>Add new cell</button>
-      <button onClick={removeCell}>Remove last cell</button>
+      <button onClick={jumpToTop}>Top</button>
     </React.Fragment>
   );
 };
