@@ -73,11 +73,7 @@ const SageCells = () => {
   };
 
   const jumpToTop = () => {
-    window.scroll({
-      top: 0, 
-      left: 0, 
-      behavior: 'smooth'
-    });
+    document.documentElement.scrollIntoView({behavior:'smooth'});
   };
 
   // consider this a init function
