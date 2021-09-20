@@ -19,6 +19,7 @@ if (firebase.apps.length === 0) {
 }
 
 const SageCells = () => {
+  //change this variable to change maximum cells
   const cellLimit = 100;
   const [cellInfos, setCellInfos] = useState([]);
   // useState(1) means default already has 1 cell
@@ -53,16 +54,15 @@ const SageCells = () => {
     for (let i = 0; i < cellLimit; i++) {
       let div = document.createElement("div");
       div.setAttribute("class", "compute");
-      //div.style.display = (i===0 && loadFirst) ? "block" : "none"; 
       div.style.display = loadAll ? "block" : "none";
       document.getElementById("cellHolder").appendChild(div);
     }
 
     setCellInfos(window.sagecell.makeSagecell({
       inputLocation: "div.compute",
-      evalButtonText: "Evaluate",
+      evalButtonText: "Evaluate this cell",
       linked: true,
-      hide: ["fullScreen"]
+      hide: ["fullScreen"] //hides the fullscreen button at the side
     }));
   };
 
@@ -72,7 +72,7 @@ const SageCells = () => {
 
   // consider this a init function
   useEffect(() => {
-    loadCells(cellLimit, false);
+    loadCells(false);
   }, []); //this is empty so no dependancy
 
   //this is called whenever cellPos is updated
@@ -83,15 +83,16 @@ const SageCells = () => {
     for (let i = 0; i < cellLimit; i++) {
       if (i < cellPos) {
         nodes[i].style.display = "block";
-      } else {
-        nodes[i].style.display = "none";
       }
+      else {
+        nodes[i].style.display = "none";
+        if (cellInfos.array != null) {
+          cellInfos.array[i].editorData.setValue("");
+          cellInfos.array[i].editorData.clearHistory();
+          cellInfos.array[i].editorData.refresh();
 
-      //check for stuff
-      if (cellInfos.array != null) {
-        //TODO, PERFORM CLEARING OF CELL CONTENT INCLUDING OUTPUT HERE
-        cellInfos.array[i].editorData.setValue("");
-        cellInfos.array[i].editorData.clearHistory();
+          //need to remove sagecell_sessionOutput.sagecell_active only on the bad objects which is heavily nested: weijie pls assist
+        }
       }
     }
     //scrolls to last, can comment out to disable the behaviour
@@ -127,9 +128,8 @@ const SageCells = () => {
       let task = storage.ref().child(Math.random().toString(36)).put(files[0]);
 
       const taskProgress = (snapshot) => {
-        document.getElementById("progress").innerHTML = `Transferred: ${
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        }%`;
+        document.getElementById("progress").innerHTML = `Transferred: ${(snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          }%`;
         console.log(`transferred: ${snapshot.bytesTransferred}`);
       };
 
@@ -160,7 +160,7 @@ const SageCells = () => {
       <br></br>
       <br></br>
       Type your own computation below and click “Evaluate”.
-      
+
       <div className={classes["btn-group"]}>
         <div className={classes["cell-manipulator"]}>
           <button onClick={addCell}>Add new cell</button>
@@ -175,7 +175,7 @@ const SageCells = () => {
       </div>
 
       <div className={classes.container} id="cellHolder"></div>
-      
+
     </React.Fragment>
   );
 };
