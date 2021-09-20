@@ -19,16 +19,18 @@ if (firebase.apps.length === 0) {
 }
 
 const SageCells = () => {
+  const cellLimit = 100;
+  const [cellInfos, setCellInfos] = useState([]);
   // useState(1) means default already has 1 cell
   const [cellPos, setCellPos] = useState(1);
-  const [update, setUpdate] = useState(false);
+  const [setUpdate] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [files, setFiles] = useState([]);
   let reader;
   const storage = firebase.storage();
 
   const addCell = () => {
-    if (cellPos < 99) {
+    if (cellPos < cellLimit - 1) {
       // increase the index by 1
       setCellPos(cellPos + 1);
     } else {
@@ -47,33 +49,21 @@ const SageCells = () => {
     }
   };
 
-  const loadCells = (numberOfCells) => {
-    for (let i = 0; i < numberOfCells; i++) {
+  const loadCells = (loadAll) => {
+    for (let i = 0; i < cellLimit; i++) {
       let div = document.createElement("div");
       div.setAttribute("class", "compute");
-      if (i === 0) {
-        div.style.display = "block";
-      } else {
-        div.style.display = "none";
-      }
+      //div.style.display = (i===0 && loadFirst) ? "block" : "none"; 
+      div.style.display = loadAll ? "block" : "none";
       document.getElementById("cellHolder").appendChild(div);
     }
 
-    window.sagecell.makeSagecell({
+    setCellInfos(window.sagecell.makeSagecell({
       inputLocation: "div.compute",
       evalButtonText: "Evaluate",
       linked: true,
-    });
-  };
-
-  const jumpToLast = () => {
-    console.log(
-      "Jumping to cell number..." +
-        (cellPos - 1) +
-        ". Recall that cells start from 0!"
-    );
-    let nodes = document.getElementById("cellHolder").children;
-    nodes[cellPos - 1].scrollIntoView({ behavior: "smooth" });
+      hide: ["fullScreen"]
+    }));
   };
 
   const jumpToTop = () => {
@@ -82,23 +72,30 @@ const SageCells = () => {
 
   // consider this a init function
   useEffect(() => {
-    loadCells(100);
-
-    console.log(uploading);
+    loadCells(cellLimit, false);
   }, []); //this is empty so no dependancy
 
   //this is called whenever cellPos is updated
   useEffect(() => {
-    console.log("I have " + cellPos + " cells");
+    //console.log("I have " + cellPos + " cells");
     let nodes = document.getElementById("cellHolder").children;
     //technically slow implementation luckily its not heavy
-    for (let i = 0; i < 100; i++) {
-      if (i <= cellPos) {
+    for (let i = 0; i < cellLimit; i++) {
+      if (i < cellPos) {
         nodes[i].style.display = "block";
       } else {
-        nodes[cellPos].style.display = "none";
+        nodes[i].style.display = "none";
+      }
+
+      //check for stuff
+      if (cellInfos.array != null) {
+        //TODO, PERFORM CLEARING OF CELL CONTENT INCLUDING OUTPUT HERE
+        cellInfos.array[i].editorData.setValue("");
+        cellInfos.array[i].editorData.clearHistory();
       }
     }
+    //scrolls to last, can comment out to disable the behaviour
+    nodes[cellPos].scrollIntoView({ behavior: "smooth" });
   }, [cellPos]);
 
   const onUpload = () => {
@@ -163,11 +160,13 @@ const SageCells = () => {
       <br></br>
       <br></br>
       Type your own computation below and click “Evaluate”.
+      
+      <div className={classes.container} id="cellHolder"></div>
       <div class="btn-group">
         <div class="cell-manipulator">
           <button onClick={addCell}>Add new cell</button>
           <button onClick={removeCell}>Remove last cell</button>
-          <button onClick={jumpToLast}>Jump to last cell</button>
+          <button onClick={jumpToTop}>Top</button>
         </div>
         <div class="notebook-stuff">
           <button>Open notebook</button>
@@ -175,8 +174,7 @@ const SageCells = () => {
           <button>Export notebook</button>
         </div>
       </div>
-      <div className={classes.container} id="cellHolder"></div>
-      <button onClick={jumpToTop}>Top</button>
+      
     </React.Fragment>
   );
 };
