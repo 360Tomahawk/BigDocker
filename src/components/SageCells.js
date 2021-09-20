@@ -111,7 +111,7 @@ const SageCells = () => {
       reader = new FileReader();
       reader.onload = function () {
         document.getElementById("result").src = reader.result;
-        document.getElementById("result").value = reader.result;
+        document.getElementById("result").value = "received";
         console.log(reader);
         setUpdate(true);
       };
@@ -163,13 +163,13 @@ const SageCells = () => {
       <br></br>
       <br></br>
       Type your own computation below and click “Evaluate”.
-      <div class="btn-group">
-        <div class="cell-manipulator">
+      <div className={classes["btn-group"]}>
+        <div className={classes["cell-manipulator"]}>
           <button onClick={addCell}>Add new cell</button>
           <button onClick={removeCell}>Remove last cell</button>
           <button onClick={jumpToLast}>Jump to last cell</button>
         </div>
-        <div class="notebook-stuff">
+        <div className={classes["notebook-stuff"]}>
           <button>Open notebook</button>
           <button>Run all</button>
           <button>Export notebook</button>
