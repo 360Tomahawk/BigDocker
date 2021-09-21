@@ -24,7 +24,7 @@ const SageCells = () => {
   const [cellInfos, setCellInfos] = useState([]);
   // useState(1) means default already has 1 cell
   const [cellPos, setCellPos] = useState(1);
-  const [setUpdate] = useState(false);
+  const [update, setUpdate] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [files, setFiles] = useState([]);
   let reader;
@@ -45,6 +45,12 @@ const SageCells = () => {
     //If you have more than 1 cell...
     if (cellPos > 1) {
       setCellPos(cellPos - 1);
+
+      document
+        .getElementsByClassName("compute")
+        [cellPos - 1].getElementsByClassName(
+          "sagecell_output_elements"
+        )[0].children[0].innerHTML = "";
     } else {
       console.log("Can't remove last cell!");
     }
@@ -58,12 +64,14 @@ const SageCells = () => {
       document.getElementById("cellHolder").appendChild(div);
     }
 
-    setCellInfos(window.sagecell.makeSagecell({
-      inputLocation: "div.compute",
-      evalButtonText: "Evaluate this cell",
-      linked: true,
-      hide: ["fullScreen"] //hides the fullscreen button at the side
-    }));
+    setCellInfos(
+      window.sagecell.makeSagecell({
+        inputLocation: "div.compute",
+        evalButtonText: "Evaluate this cell",
+        linked: true,
+        hide: ["fullScreen"], //hides the fullscreen button at the side
+      })
+    );
   };
 
   const jumpToTop = () => {
@@ -83,8 +91,7 @@ const SageCells = () => {
     for (let i = 0; i < cellLimit; i++) {
       if (i < cellPos) {
         nodes[i].style.display = "block";
-      }
-      else {
+      } else {
         nodes[i].style.display = "none";
         if (cellInfos.array != null) {
           cellInfos.array[i].editorData.setValue("");
@@ -128,8 +135,9 @@ const SageCells = () => {
       let task = storage.ref().child(Math.random().toString(36)).put(files[0]);
 
       const taskProgress = (snapshot) => {
-        document.getElementById("progress").innerHTML = `Transferred: ${(snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          }%`;
+        document.getElementById("progress").innerHTML = `Transferred: ${
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        }%`;
         console.log(`transferred: ${snapshot.bytesTransferred}`);
       };
 
@@ -160,7 +168,6 @@ const SageCells = () => {
       <br></br>
       <br></br>
       Type your own computation below and click “Evaluate”.
-
       <div className={classes["btn-group"]}>
         <div className={classes["cell-manipulator"]}>
           <button onClick={addCell}>Add new cell</button>
@@ -173,9 +180,7 @@ const SageCells = () => {
           <button>Export notebook</button>
         </div>
       </div>
-
       <div className={classes.container} id="cellHolder"></div>
-
     </React.Fragment>
   );
 };
