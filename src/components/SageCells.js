@@ -45,12 +45,6 @@ const SageCells = () => {
     //If you have more than 1 cell...
     if (cellPos > 1) {
       setCellPos(cellPos - 1);
-
-      document
-        .getElementsByClassName("compute")
-        [cellPos - 1].getElementsByClassName(
-          "sagecell_output_elements"
-        )[0].children[0].innerHTML = "";
     } else {
       console.log("Can't remove last cell!");
     }
@@ -99,6 +93,7 @@ const SageCells = () => {
           cellInfos.array[i].editorData.refresh();
 
           //need to remove sagecell_sessionOutput.sagecell_active only on the bad objects which is heavily nested: weijie pls assist
+          nodes[i].getElementsByClassName("sagecell_output_elements")[0].children[0].innerHTML = "";
         }
       }
     }
