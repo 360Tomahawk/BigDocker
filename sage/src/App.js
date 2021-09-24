@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import Main from "./components/Main";
 import SageCells from "./components/SageCells";
 import { Switch, Route } from "react-router-dom";
 import Header from "./components/Header";
+import NBPlayer from "./components/NBPlayer";
+
 function App() {
   return (
     <React.Fragment>
@@ -14,6 +16,10 @@ function App() {
 
         <Route path="/SageCells">
           <SageCells />
+        </Route>
+
+        <Route path="/NBPlayer">
+          <NBPlayer />
         </Route>
       </Switch>
     </React.Fragment>
