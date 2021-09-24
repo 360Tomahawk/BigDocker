@@ -7,9 +7,9 @@ const Main = () => {
         <div className={classes.help}>Guide</div>
         <h1>Big Docker</h1>
 
-        <a href="./nbplayer/index.html">
+        <Link to="/NBPlayer" exact="true">
           <button className={classes.defaultButton}>Read .ipynb file</button>
-        </a>
+        </Link>
 
         <Link to="/SageCells" exact="true">
           <button className={classes.defaultButton}>Code yourself</button>
