@@ -1,18 +1,8 @@
 .container {
-  margin: 3rem auto;
+  margin: 0 auto;
   border-radius: 25px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
   padding: 2rem;
-}
-.container:hover {
-  cursor: default;
-}
-.help {
-  display: absolute;
-  float: right;
-}
-.help:hover {
-  cursor: pointer;
 }
 .defaultButton {
   width: 250px;

@@ -8,13 +8,6 @@
 .container:hover {
   cursor: default;
 }
-.help {
-  display: absolute;
-  float: right;
-}
-.help:hover {
-  cursor: pointer;
-}
 .defaultButton {
   width: 250px;
   border-radius: 10px;

@@ -153,7 +153,7 @@ const SageCells = () => {
     document.getElementById("link").innerHTML = profilefile;
   };
   return (
-    <React.Fragment>
+    <div>
       <input placeholder="Upload Dataset" onClick={onUpload} id="result" />
       <button onClick={onChangeFile}>Upload Dataset </button>
       <span id="progress"></span>
@@ -176,7 +176,7 @@ const SageCells = () => {
         </div>
       </div>
       <div className={classes.container} id="cellHolder"></div>
-    </React.Fragment>
+    </div>
   );
 };
 
