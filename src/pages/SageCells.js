@@ -24,7 +24,7 @@ const SageCells = () => {
   const [cellInfos, setCellInfos] = useState([]);
   // useState(1) means default already has 1 cell
   const [cellPos, setCellPos] = useState(1);
-  const [update, setUpdate] = useState(false);
+  const [setUpdate] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [files, setFiles] = useState([]);
   let reader;
@@ -153,7 +153,7 @@ const SageCells = () => {
     document.getElementById("link").innerHTML = profilefile;
   };
   return (
-    <div>
+    <div className={classes["page-content"]}>
       <input placeholder="Upload Dataset" onClick={onUpload} id="result" />
       <button onClick={onChangeFile}>Upload Dataset </button>
       <span id="progress"></span>

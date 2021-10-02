@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import "./App.css";
+
+
 import Main from "./pages/Main";
 import SageCells from "./pages/SageCells";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Navbar from "./components/Navbar/Navbar";
-import "./App.css";
+import Settings from "./pages/Settings";
 
 function App() {
   return (
@@ -14,8 +17,8 @@ function App() {
           <Route path="/" exact component={Main} />
           <Route path="/SageCells" exact component={SageCells} />
           {/* <Route path="/Help" exact component={Help} />
-          <Route path="/Storage" exact component={Storage} />
-          <Route path="/Settings" exact component={Settings} /> */}
+          <Route path="/Storage" exact component={Storage} />*/}
+          <Route path="/Settings" exact component={Settings} /> 
         </Switch>
       </Router>
     </>

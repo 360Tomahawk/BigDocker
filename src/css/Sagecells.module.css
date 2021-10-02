@@ -12,3 +12,9 @@
   font-size:150%;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 }
+
+.page-content{
+  padding: 2rem;
+  margin-left: 250px;
+  font-size: 120%;
+}
