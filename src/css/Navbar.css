@@ -1,4 +1,13 @@
-.sidebar {
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Lato', sans-serif;
+}
+
+.headerbar {
   background-color: #4697ce;
   height: 80px;
   display: flex;
@@ -22,13 +31,13 @@
 .nav-menu {
   background-color: #464957;
   width: 250px;
+  margin-top: 80px;
   height: 100vh;
   display: flex;
   justify-content: center;
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 10;
 }
 
 .nav-text {
@@ -58,13 +67,4 @@
 
 .nav-menu-items {
   width: 100%;
-}
-
-.navbar-toggle {
-  background-color: #4697ce;
-  width: 100%;
-  height: 80px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
 }

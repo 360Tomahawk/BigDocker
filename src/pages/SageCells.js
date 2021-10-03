@@ -1,4 +1,5 @@
-import classes from "../css/Sagecells.module.css";
+import "../css/Sagecells.css";
+import "../App.css"
 import React, { useState, useEffect } from "react";
 import firebase from "firebase";
 
@@ -153,7 +154,7 @@ const SageCells = () => {
     document.getElementById("link").innerHTML = profilefile;
   };
   return (
-    <div className={classes["page-content"]}>
+    <div className="page-content">
       <input placeholder="Upload Dataset" onClick={onUpload} id="result" />
       <button onClick={onChangeFile}>Upload Dataset </button>
       <span id="progress"></span>
@@ -163,19 +164,19 @@ const SageCells = () => {
       <br></br>
       <br></br>
       Type your own computation below and click “Evaluate”.
-      <div className={classes["btn-group"]}>
-        <div className={classes["cell-manipulator"]}>
+      <div className="btn-group">
+        <div className="cell-manipulator">
           <button onClick={addCell}>Add new cell</button>
           <button onClick={removeCell}>Remove last cell</button>
           <button onClick={jumpToTop}>Top</button>
         </div>
-        <div className={classes["notebook-stuff"]}>
+        <div className="notebook-stuff">
           <button>Open notebook</button>
           <button>Run all</button>
           <button>Export notebook</button>
         </div>
       </div>
-      <div className={classes.container} id="cellHolder"></div>
+      <div className="cellContainer" id="cellHolder"></div>
     </div>
   );
 };
