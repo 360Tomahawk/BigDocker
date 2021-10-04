@@ -47,7 +47,7 @@ const SageCells = () => {
     if (cellPos > 1) {
       setCellPos(cellPos - 1);
     } else {
-      console.log("Can't remove last cell!");
+      console.log("Can't remove first cell, clearing it instead");
     }
   };
 
@@ -80,20 +80,25 @@ const SageCells = () => {
 
   //this is called whenever cellPos is updated
   useEffect(() => {
-    //console.log("I have " + cellPos + " cells");
+    console.log(cellPos);
     let nodes = document.getElementById("cellHolder").children;
     //technically slow implementation luckily its not heavy
     for (let i = 0; i < cellLimit; i++) {
       if (i < cellPos) {
         nodes[i].style.display = "block";
+        if (cellInfos.array != null) {
+          //refresh cell content
+          // cellInfos.array[i].editorData.refresh();
+          console.log(cellInfos.array[i]);
+        }
       } else {
         nodes[i].style.display = "none";
         if (cellInfos.array != null) {
-          cellInfos.array[i].editorData.setValue("");
-          cellInfos.array[i].editorData.clearHistory();
-          cellInfos.array[i].editorData.refresh();
-
-          //need to remove sagecell_sessionOutput.sagecell_active only on the bad objects which is heavily nested: weijie pls assist
+          //clears content of the code editor
+          // cellInfos.array[i].editorData.setValue("");
+          // cellInfos.array[i].editorData.clearHistory();
+          
+          //removes the output box
           nodes[i].getElementsByClassName("sagecell_output_elements")[0].children[0].innerHTML = "";
         }
       }
@@ -131,9 +136,8 @@ const SageCells = () => {
       let task = storage.ref().child(Math.random().toString(36)).put(files[0]);
 
       const taskProgress = (snapshot) => {
-        document.getElementById("progress").innerHTML = `Transferred: ${
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        }%`;
+        document.getElementById("progress").innerHTML = `Transferred: ${(snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          }%`;
         console.log(`transferred: ${snapshot.bytesTransferred}`);
       };
 

@@ -1,0 +1,12 @@
+version: '3.3'
+services:
+  sagecell:
+    image: datsabk/sagecell
+    # server port, localhost port
+    ports:
+      - "8443:8888"
+  react:
+    image: bigdocker
+    ports:
+      - 80:80
+      - 3000:3000
