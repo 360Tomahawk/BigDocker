@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {Link} from 'react-router-dom';
 import {IconContext} from 'react-icons';
 
@@ -6,22 +6,13 @@ import {FaDocker} from "react-icons/fa";
 import {NavbarData} from './NavbarData';
 import  "../css/Navbar.css"
 
-import ToggleSwitch from './ToggleSwitch';
-
 function Navbar() {
-
-    const [darkmode, setDarkMode] = useState(false);
-
-    const onDarkModeChange = (checked) => {
-        setDarkMode(checked);
-    }
 
     return (
         <>
         <IconContext.Provider value={{color:'#fff'}}>
             <div className="headerbar">
-                <div className="app-title"><FaDocker/>BigDocker</div>
-                <div className="darkmodeToggle">Dark mode<ToggleSwitch id="darkmodetoggle" optionLabels={[]} small={true} checked={darkmode} onChange={onDarkModeChange} /></div>
+                <Link to="/" className="app-title"><FaDocker/>BigDocker</Link>
             </div>
             <nav className='nav-menu'>
                 {/* Hide the sidebar if anything is clicked */}

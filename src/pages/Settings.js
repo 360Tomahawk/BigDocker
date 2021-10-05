@@ -1,15 +1,24 @@
 import React from 'react';
+import useDarkMode from 'use-dark-mode';
+import ToggleSwitch from "../components/ToggleSwitch"
+
 import "../App.css";
+import "../css/Settings.css";
 
 function Settings() {
 
+    //Default darkmode setting
+    const darkMode = useDarkMode(false);
+
+    const setFontSize = (size) => {
+        //do some fontsize shit here
+    }
+
     return (
         <div id="container" className="page-content">
-            Font size? {/*add item for the fontsize changer*/}
-            <br/>
-            Storage Location? {/*implement or...?*/}
-            <br/>
-            <button className="btn_saveSettings">Save settings</button> {/*doesnt work yet*/}
+            Dark mode <ToggleSwitch id="darkmodetoggle" optionLabels={[]} small={true} checked={darkMode.value} onChange={darkMode.toggle} />
+            <br />
+            Font size?
         </div>
     )
 }

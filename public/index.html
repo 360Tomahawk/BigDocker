@@ -33,9 +33,15 @@
     -->
     <title>React App</title>
 
-    <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
-    <!-- <script>var _gaq = _gaq || [];</script>
-    <script src="http://localhost:8443/static/embedded_sagecell.js"></script> -->
+    <script>
+      //change this variable ONLY
+      var isSageServerUp = false;
+      var _gaq = _gaq || [];
+      var link = isSageServerUp ? "http://localhost:8443/static/embedded_sagecell.js" : "https://sagecell.sagemath.org/static/embedded_sagecell.js";
+      var scrpt = document.createElement('script');
+      scrpt.src = link;
+      document.head.appendChild(scrpt);
+    </script>
     
   </head>
   <body>

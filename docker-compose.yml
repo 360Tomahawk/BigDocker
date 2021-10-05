@@ -2,11 +2,18 @@ version: '3.3'
 services:
   sagecell:
     image: datsabk/sagecell
+    # build:
+    #   context: https://github.com/360tomahawk/docker-sagecell.git
+    # image: sagecell
+    container_name: sageserver
     # server port, localhost port
     ports:
       - "8443:8888"
   react:
+    build: 
+    #   context: https://github.com/360tomahawk/bigdocker.git#main
+        context: .
     image: bigdocker
+    container_name: webapp
     ports:
-      - 80:80
       - 3000:3000

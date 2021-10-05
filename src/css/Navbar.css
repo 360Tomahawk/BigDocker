@@ -9,13 +9,17 @@
 
 .headerbar {
   background-color: #4697ce;
+  width: 100vw;
   height: 80px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  position: fixed;
+  z-index: 10;
 }
 
 .app-title {
+  text-decoration: none;
   font-size: 2rem;
   color: #f5f5f5;
   margin: 0 auto;

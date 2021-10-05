@@ -1,7 +1,7 @@
 /*Default page padding and formatting.*/
+
 .page-content {
-    padding: 2rem;
-    margin-left: 250px;
-    height: calc(100vh - 80px);
-    font-size: 100%;
+    padding-left: 350px;
+    padding-right: 100px;
+    padding-top: 150px;
 }
