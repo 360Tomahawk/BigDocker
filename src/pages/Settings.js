@@ -10,10 +10,6 @@ function Settings() {
     //Default darkmode setting
     const darkMode = useDarkMode(false);
 
-    const setFontSize = (size) => {
-        //do some fontsize shit here
-    }
-
     return (
         <div id="container" className="page-content">
             Dark mode <ToggleSwitch id="darkmodetoggle" optionLabels={[]} small={true} checked={darkMode.value} onChange={darkMode.toggle} />
