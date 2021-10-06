@@ -36,9 +36,7 @@ const SageCells = () => {
       // increase the index by 1
       setCellPos(cellPos + 1);
     } else {
-      console.log(
-        "Can't have more than 100 cells (this is a limitation by us)!"
-      );
+      alert("Can't have more than " + cellLimit +  " cells (this is a limitation by us)!");
     }
   };
 
@@ -88,18 +86,17 @@ const SageCells = () => {
         nodes[i].style.display = "block";
         if (cellInfos.array != null) {
           //refresh cell content
-          // cellInfos.array[i].editorData.refresh();
+          //cellInfos.array[i].editorData.refresh();
           console.log(cellInfos.array[i]);
         }
       } else {
         nodes[i].style.display = "none";
+        //removes the output box
+        nodes[i].getElementsByClassName("sagecell_output_elements")[0].children[0].innerHTML = "";
         if (cellInfos.array != null) {
-          //clears content of the code editor
+          // TODO FIX clears content of the code editor
           // cellInfos.array[i].editorData.setValue("");
           // cellInfos.array[i].editorData.clearHistory();
-          
-          //removes the output box
-          nodes[i].getElementsByClassName("sagecell_output_elements")[0].children[0].innerHTML = "";
         }
       }
     }
@@ -153,10 +150,12 @@ const SageCells = () => {
       task.on("state_changed", taskProgress, taskError, taskCompleted);
     }
   };
+
   const savePostData = (profilefile) => {
     console.log(profilefile);
     document.getElementById("link").innerHTML = profilefile;
   };
+
   return (
     <div className="page-content">
       <input placeholder="Upload Dataset" onClick={onUpload} id="result" />
