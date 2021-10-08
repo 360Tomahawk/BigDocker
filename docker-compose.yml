@@ -1,5 +1,20 @@
 version: '3.3'
 services:
+  nbplayer:
+    build: 
+      context: https://github.com/360tomahawk/nbplayer.git#master
+    image: nbplayer
+    container_name: nbplayer
+    ports:
+      - 3001:3001
+  react:
+    build: 
+    #   context: https://github.com/360tomahawk/bigdocker.git#main
+        context: .
+    image: bigdocker
+    container_name: webapp
+    ports:
+      - 3000:3000
   sagecell:
     image: datsabk/sagecell
     # build:
@@ -9,11 +24,5 @@ services:
     # server port, localhost port
     ports:
       - "8443:8888"
-  react:
-    build: 
-    #   context: https://github.com/360tomahawk/bigdocker.git#main
-        context: .
-    image: bigdocker
-    container_name: webapp
-    ports:
-      - 3000:3000
+  
+  
