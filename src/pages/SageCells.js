@@ -2,6 +2,7 @@ import "../css/Sagecells.css";
 import "../App.css"
 import React, { useState, useEffect } from "react";
 import firebase from "firebase";
+import * as FaIcons from "react-icons/fa";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCJO9dx2KjDfQvDHkpoxG3kZ49QyeiJGTc",
@@ -36,7 +37,7 @@ const SageCells = () => {
       // increase the index by 1
       setCellPos(cellPos + 1);
     } else {
-      alert("Can't have more than " + cellLimit +  " cells (this is a limitation by us)!");
+      alert("Can't have more than " + cellLimit + " cells (this is a limitation by us)!");
     }
   };
 
@@ -156,31 +157,38 @@ const SageCells = () => {
     document.getElementById("link").innerHTML = profilefile;
   };
 
-  return (
-    <div className="page-content">
-      <input placeholder="Upload Dataset" onClick={onUpload} id="result" />
-      <button onClick={onChangeFile}>Upload Dataset </button>
-      <span id="progress"></span>
-      <br></br>
-      <br></br>
-      <span id="link"></span>
-      <br></br>
-      <br></br>
-      Type your own computation below and click “Evaluate”.
-      <div className="btn-group">
-        <div className="cell-manipulator">
-          <button onClick={addCell}>Add new cell</button>
-          <button onClick={removeCell}>Remove last cell</button>
-          <button onClick={jumpToTop}>Top</button>
+  return ( 
+      <div className="page-content">
+        <div class="editor-nav">
+          <div class="dropdown">
+            <button class="dropbtn">File<FaIcons.FaCaretDown/></button>
+            <div className="dropdown-content">
+              <button>Open notebook</button>
+              <button>Export notebook</button>
+              <button>Run all</button>
+            </div>
+          </div>
+          <div class="dropdown">
+            <button class="dropbtn">Cells<FaIcons.FaCaretDown/></button>
+            <div className="dropdown-content">
+              <button onClick={addCell}>Add new cell</button>
+              <button onClick={removeCell}>Remove last cell</button>
+            </div>
+          </div>
+
         </div>
-        <div className="notebook-stuff">
-          <button>Open notebook</button>
-          <button>Run all</button>
-          <button>Export notebook</button>
-        </div>
+        <input placeholder="Upload Dataset" onClick={onUpload} id="result" />
+        <button onClick={onChangeFile}>Upload Dataset </button>
+        <span id="progress"></span>
+        <br></br>
+        <br></br>
+        <span id="link"></span>
+        <br></br>
+        <br></br>
+        Type your own computation below and click “Evaluate”.
+
+        <div className="cellContainer" id="cellHolder"></div>
       </div>
-      <div className="cellContainer" id="cellHolder"></div>
-    </div>
   );
 };
 
