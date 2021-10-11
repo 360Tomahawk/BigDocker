@@ -2,7 +2,8 @@ import "../css/Sagecells.css";
 import "../App.css"
 import React, { useState, useEffect } from "react";
 import firebase from "firebase";
-import * as FaIcons from "react-icons/fa";
+import { FaCaretDown } from "react-icons/fa";
+import { ImArrowUp } from "react-icons/im";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCJO9dx2KjDfQvDHkpoxG3kZ49QyeiJGTc",
@@ -26,6 +27,12 @@ const SageCells = () => {
   const [cellInfos, setCellInfos] = useState([]);
   // useState(1) means default already has 1 cell
   const [cellPos, setCellPos] = useState(1);
+
+  //pagenav
+  const [showScroll, setShowScroll] = useState(false);
+
+
+  //file upload stuff
   const [setUpdate] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [files, setFiles] = useState([]);
@@ -47,14 +54,25 @@ const SageCells = () => {
       setCellPos(cellPos - 1);
     } else {
       console.log("Can't remove first cell, clearing it instead");
+      clearCell(0);
     }
   };
 
-  const loadCells = (loadAll) => {
+  const clearCell = (index) => {
+    if (cellInfos.array != null) {
+      let nodes = document.getElementById("cellHolder").children;
+      cellInfos.array[index].editorData.setValue("");
+      cellInfos.array[index].editorData.clearHistory();
+      nodes[index].getElementsByClassName("sagecell_output_elements")[0].children[0].innerHTML = "";
+      cellInfos.array[index].editorData.refresh();
+    }
+  }
+
+  const loadCells = () => {
     for (let i = 0; i < cellLimit; i++) {
       let div = document.createElement("div");
       div.setAttribute("class", "compute");
-      div.style.display = loadAll ? "block" : "none";
+      div.style.display = "none";
       document.getElementById("cellHolder").appendChild(div);
     }
 
@@ -74,31 +92,25 @@ const SageCells = () => {
 
   // consider this a init function
   useEffect(() => {
-    loadCells(false);
+    loadCells();
+    window.addEventListener("scroll", () => {
+      //arbitary value for now
+      console.log(window.scrollY);
+      setShowScroll(window.scrollY > 100);
+    });
   }, []); //this is empty so no dependancy
 
   //this is called whenever cellPos is updated
   useEffect(() => {
-    console.log(cellPos);
     let nodes = document.getElementById("cellHolder").children;
     //technically slow implementation luckily its not heavy
     for (let i = 0; i < cellLimit; i++) {
       if (i < cellPos) {
         nodes[i].style.display = "block";
-        if (cellInfos.array != null) {
-          //refresh cell content
-          //cellInfos.array[i].editorData.refresh();
-          console.log(cellInfos.array[i]);
-        }
-      } else {
+      }
+      else {
         nodes[i].style.display = "none";
-        //removes the output box
-        nodes[i].getElementsByClassName("sagecell_output_elements")[0].children[0].innerHTML = "";
-        if (cellInfos.array != null) {
-          // TODO FIX clears content of the code editor
-          // cellInfos.array[i].editorData.setValue("");
-          // cellInfos.array[i].editorData.clearHistory();
-        }
+        clearCell(i);
       }
     }
     //scrolls to last, can comment out to disable the behaviour
@@ -157,38 +169,39 @@ const SageCells = () => {
     document.getElementById("link").innerHTML = profilefile;
   };
 
-  return ( 
-      <div className="page-content">
-        <div class="editor-nav">
-          <div class="dropdown">
-            <button class="dropbtn">File<FaIcons.FaCaretDown/></button>
-            <div className="dropdown-content">
-              <button>Open notebook</button>
-              <button>Export notebook</button>
-              <button>Run all</button>
-            </div>
+  return (
+    <div className="page-content">
+      <div className="editor-nav">
+        <div className="dropdown">
+          <button className="dropbtn">File<FaCaretDown /></button>
+          <div className="dropdown-content">
+            <button>Open notebook</button>
+            <button>Export notebook</button>
+            <button>Run all</button>
           </div>
-          <div class="dropdown">
-            <button class="dropbtn">Cells<FaIcons.FaCaretDown/></button>
-            <div className="dropdown-content">
-              <button onClick={addCell}>Add new cell</button>
-              <button onClick={removeCell}>Remove last cell</button>
-            </div>
-          </div>
-
         </div>
-        <input placeholder="Upload Dataset" onClick={onUpload} id="result" />
-        <button onClick={onChangeFile}>Upload Dataset </button>
-        <span id="progress"></span>
-        <br></br>
-        <br></br>
-        <span id="link"></span>
-        <br></br>
-        <br></br>
-        Type your own computation below and click “Evaluate”.
+        <div className="dropdown">
+          <button className="dropbtn">Cells<FaCaretDown /></button>
+          <div className="dropdown-content">
+            <button onClick={addCell}>Add new cell</button>
+            <button onClick={removeCell}>Remove last cell</button>
+          </div>
+        </div>
 
-        <div className="cellContainer" id="cellHolder"></div>
       </div>
+      <input placeholder="Upload Dataset" onClick={onUpload} id="result" />
+      <button onClick={onChangeFile}>Upload Dataset </button><span id="progress"></span>
+      <br></br>
+      <span id="link"></span>
+      <br></br>
+      <br></br>
+      Type your own computation below and click “Evaluate”.
+
+      <div className="cellContainer" id="cellHolder"></div>
+      {showScroll && (
+        <button onClick={jumpToTop} className="btn_scrollTop"><ImArrowUp /></button>
+      )}
+    </div>
   );
 };
 
