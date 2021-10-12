@@ -95,7 +95,6 @@ const SageCells = () => {
     loadCells();
     window.addEventListener("scroll", () => {
       //arbitary value for now
-      console.log(window.scrollY);
       setShowScroll(window.scrollY > 100);
     });
   }, []); //this is empty so no dependancy
