@@ -1,6 +1,5 @@
 .toggle-switch {
-    position: absolute;
-    right: 40px;
+    position: relative;
     margin-right: 10px;
     width: 75px;
     display: inline-block;

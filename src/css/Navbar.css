@@ -7,6 +7,10 @@
   font-family: 'Lato', sans-serif;
 }
 
+.iconstyle {
+  margin-right: 8px;
+}
+
 .headerbar {
   background-color: #4697ce;
   width: 100vw;
@@ -78,4 +82,10 @@
 
 .nav-menu-items {
   width: 100%;
+}
+
+.darkmodeStuff {
+  display:flex;
+  position: absolute;
+  right: 40px;
 }
