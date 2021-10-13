@@ -5,7 +5,9 @@ import {IconContext} from 'react-icons';
 import useDarkMode from 'use-dark-mode';
 import ToggleSwitch from "../components/ToggleSwitch"
 
+import {IoMdMoon} from "react-icons/io";
 import {FaDocker} from "react-icons/fa";
+
 import {NavbarData} from './NavbarData';
 import  "../css/Navbar.css"
 
@@ -15,10 +17,12 @@ function Navbar() {
 
     return (
         <>
-        <IconContext.Provider value={{color:'#fff'}}>
+        <IconContext.Provider value={{color:'#fff', className:"iconstyle"}}>
             <div className="headerbar">
                 <Link to="/" className="app-title"><FaDocker/>BigDocker</Link>
-                <ToggleSwitch id="darkmodetoggle" optionLabels={[]} small={true} checked={darkMode.value} onChange={darkMode.toggle} />
+                <div className="darkmodeStuff">
+                    <IoMdMoon size={20}/><ToggleSwitch id="darkmodetoggle" optionLabels={[]} small={true} checked={darkMode.value} onChange={darkMode.toggle} />
+                </div>
             </div>
             <nav className='nav-menu'>
                 {/* Hide the sidebar if anything is clicked */}
