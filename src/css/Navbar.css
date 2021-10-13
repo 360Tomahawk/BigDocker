@@ -23,6 +23,11 @@
   font-size: 2rem;
   color: #f5f5f5;
   margin: 0 auto;
+  transition: transform 0.25s;
+}
+
+.app-title:hover {
+  transform: scale(1.1);
 }
   
 .menu-bars {
@@ -48,7 +53,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 8px 0px 8px 16px;
+  padding: 8px 8px 8px 16px;
   list-style: none;
   height: 60px;
 }
@@ -63,10 +68,12 @@
   align-items: center;
   padding: 0 16px;
   border-radius: 4px;
+  transition: transform .25s;
 }
 
 .nav-text a:hover {
   background-color: #4697ce;
+  transform: scale(1.1);
 }
 
 .nav-menu-items {

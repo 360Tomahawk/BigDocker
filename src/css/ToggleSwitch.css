@@ -1,12 +1,10 @@
 .toggle-switch {
-    position: relative;
+    position: absolute;
+    right: 40px;
     margin-right: 10px;
     width: 75px;
     display: inline-block;
     vertical-align: middle;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     text-align: left; }
     .toggle-switch-checkbox {
       display: none; }

@@ -5,7 +5,6 @@ import "./App.css";
 
 import Main from "./pages/Main";
 import SageCells from "./pages/SageCells";
-import Settings from "./pages/Settings";
 import Help from "./pages/Help";
 import Storage from "./pages/Storage";
 
@@ -17,10 +16,9 @@ function App() {
         <Navbar />
         <Switch>
           <Route path="/" exact component={Main} />
-          <Route path="/SageCells" exact component={SageCells} />
+          <Route path="/Sandbox" exact component={SageCells} />
           <Route path="/Help" exact component={Help} />
           <Route path="/Storage" exact component={Storage} />
-          <Route path="/Settings" exact component={Settings} />
         </Switch>
       </Router>
     </>

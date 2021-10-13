@@ -1,5 +1,5 @@
 import React from 'react'
-import {IoIosPaper, IoIosHelpCircle, IoIosSettings} from "react-icons/io";
+import {IoIosPaper, IoIosHelpCircle} from "react-icons/io";
 import {AiFillHome, AiFillDatabase} from "react-icons/ai";
 
 export const NavbarData = [
@@ -11,7 +11,7 @@ export const NavbarData = [
     },
     {
         title: 'Sandbox',
-        path: '/SageCells',
+        path: '/Sandbox',
         icon: <IoIosPaper/>,
         cName: 'nav-text'
     },
@@ -25,12 +25,6 @@ export const NavbarData = [
         title: 'My Storage',
         path: '/Storage',
         icon: <AiFillDatabase/>,
-        cName: 'nav-text'
-    },
-    {
-        title: 'Settings',
-        path: '/Settings',
-        icon: <IoIosSettings/>,
         cName: 'nav-text'
     }
 ]

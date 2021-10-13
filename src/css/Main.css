@@ -1,0 +1,37 @@
+.mainText {
+    /* do some stuff here */
+}
+
+.getStarted {
+    border-radius: 4px;
+    font-size: 16px;
+    padding: 8px 16px;
+    transition-duration: 0.25s;
+  }
+  
+.getStarted:hover {
+    background-color: #4697ce;; /* Green */
+    color: white;
+}
+
+.poweredBy {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    text-align: center;
+}
+
+.iconHolder {
+    display: flex;
+}
+
+.icon {
+    margin: 10px;
+    color: inherit;
+    text-decoration: none;
+    transition: transform .25s;
+}
+
+.icon:hover{
+    transform: scale(1.1);
+}
