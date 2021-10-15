@@ -1,15 +1,29 @@
 import "../App.css";
 import "../css/Main.css";
 import {FaReact, FaDocker, FaGithub} from "react-icons/fa";
+import { ShepherdTour, ShepherdTourContext } from 'react-shepherd';
+import { Steps } from "../components/Steps";
+import { useContext } from "react";
 
 const Main = () => {
+
+  const tour = useContext(ShepherdTourContext);
+  const tourOptions = {
+    defaultStepOptions: {
+      cancelIcon: {
+        enabled: true
+      }
+    },
+    useModalOverlay: true
+  };
+
   return (
     <div className="page-content">
         <div className="mainText">
           <h1>Welcome to BigDocker</h1>
           <br/>
           <p>New to the app?</p>
-          <button className="getStarted">Get Started</button>
+          <button className="getStarted" onClick={tour.start}>Get Started</button>
         </div>
         <div className="poweredBy">
           Powered by
