@@ -1,0 +1,46 @@
+.page-content h1 {
+  font-size: 300%;
+}
+.container {
+  height: 100%;
+  min-height: 700px;
+  position: relative;
+  padding: 50px;
+  font-size: 120%;
+}
+li ul {
+  position: relative;
+  left: 40px;
+}
+a {
+  text-decoration: none;
+}
+
+.content {
+}
+
+.block {
+  height: 110px;
+}
+
+li button {
+  border: none;
+  cursor: pointer;
+  font-size: 100%;
+  background-color: white;
+}
+.content p {
+  padding: 10px;
+  font-size: 120%;
+}
+
+.subcontent {
+  position: relative;
+  left: 50px;
+  max-width: 1200px;
+}
+
+.shiftRight {
+  position: relative;
+  left: 70px;
+}
