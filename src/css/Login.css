@@ -1,0 +1,13 @@
+.auth-container {
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  left: -100px;
+}
+
+.input {
+  height: 40px;
+  width: 270px;
+  padding: 10px;
+  border-radius: 5px;
+}

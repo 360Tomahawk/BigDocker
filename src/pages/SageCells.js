@@ -1,25 +1,9 @@
 import "../css/Sagecells.css";
-import "../App.css"
+import "../App.css";
 import React, { useState, useEffect } from "react";
 import firebase from "firebase";
 import { FaCaretDown } from "react-icons/fa";
 import { ImArrowUp } from "react-icons/im";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCJO9dx2KjDfQvDHkpoxG3kZ49QyeiJGTc",
-  authDomain: "bigdocker-csci321.firebaseapp.com",
-  databaseURL:
-    "https://bigdocker-csci321-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "bigdocker-csci321",
-  storageBucket: "bigdocker-csci321.appspot.com",
-  messagingSenderId: "258512757467",
-  appId: "1:258512757467:web:18fd0326ed6097963a62fe",
-};
-
-if (firebase.apps.length === 0) {
-  firebase.initializeApp(firebaseConfig);
-  firebase.analytics();
-}
 
 const SageCells = () => {
   //change this variable to change maximum cells
@@ -31,9 +15,8 @@ const SageCells = () => {
   //pagenav
   const [showScroll, setShowScroll] = useState(false);
 
-
   //file upload stuff
-  const [setUpdate] = useState(false);
+  const [update, setUpdate] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [files, setFiles] = useState([]);
   let reader;
@@ -44,7 +27,11 @@ const SageCells = () => {
       // increase the index by 1
       setCellPos(cellPos + 1);
     } else {
-      alert("Can't have more than " + cellLimit + " cells (this is a limitation by us)!");
+      alert(
+        "Can't have more than " +
+          cellLimit +
+          " cells (this is a limitation by us)!"
+      );
     }
   };
 
@@ -63,10 +50,12 @@ const SageCells = () => {
       let nodes = document.getElementById("cellHolder").children;
       cellInfos.array[index].editorData.setValue("");
       cellInfos.array[index].editorData.clearHistory();
-      nodes[index].getElementsByClassName("sagecell_output_elements")[0].children[0].innerHTML = "";
+      nodes[index].getElementsByClassName(
+        "sagecell_output_elements"
+      )[0].children[0].innerHTML = "";
       cellInfos.array[index].editorData.refresh();
     }
-  }
+  };
 
   const loadCells = () => {
     for (let i = 0; i < cellLimit; i++) {
@@ -106,8 +95,7 @@ const SageCells = () => {
     for (let i = 0; i < cellLimit; i++) {
       if (i < cellPos) {
         nodes[i].style.display = "block";
-      }
-      else {
+      } else {
         nodes[i].style.display = "none";
         clearCell(i);
       }
@@ -145,8 +133,9 @@ const SageCells = () => {
       let task = storage.ref().child(Math.random().toString(36)).put(files[0]);
 
       const taskProgress = (snapshot) => {
-        document.getElementById("progress").innerHTML = `Transferred: ${(snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          }%`;
+        document.getElementById("progress").innerHTML = `Transferred: ${
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        }%`;
         console.log(`transferred: ${snapshot.bytesTransferred}`);
       };
 
@@ -172,7 +161,10 @@ const SageCells = () => {
     <div className="page-content">
       <div className="editor-nav">
         <div className="dropdown">
-          <button className="dropbtn">File<FaCaretDown /></button>
+          <button className="dropbtn">
+            File
+            <FaCaretDown />
+          </button>
           <div className="dropdown-content">
             <button>Open notebook</button>
             <button>Export notebook</button>
@@ -180,25 +172,29 @@ const SageCells = () => {
           </div>
         </div>
         <div className="dropdown">
-          <button className="dropbtn">Cells<FaCaretDown /></button>
+          <button className="dropbtn">
+            Cells
+            <FaCaretDown />
+          </button>
           <div className="dropdown-content">
             <button onClick={addCell}>Add new cell</button>
             <button onClick={removeCell}>Remove last cell</button>
           </div>
         </div>
-
       </div>
       <input placeholder="Upload Dataset" onClick={onUpload} id="result" />
-      <button onClick={onChangeFile}>Upload Dataset </button><span id="progress"></span>
+      <button onClick={onChangeFile}>Upload Dataset </button>
+      <span id="progress"></span>
       <br></br>
       <span id="link"></span>
       <br></br>
       <br></br>
       Type your own computation below and click “Evaluate”.
-
       <div className="cellContainer" id="cellHolder"></div>
       {showScroll && (
-        <button onClick={jumpToTop} className="btn_scrollTop"><ImArrowUp /></button>
+        <button onClick={jumpToTop} className="btn_scrollTop">
+          <ImArrowUp />
+        </button>
       )}
     </div>
   );
