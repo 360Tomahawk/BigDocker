@@ -60,9 +60,7 @@ const Main = () => {
         ) : (
           <div>
             <div>Welcome, {user.name}</div>
-            <button className="menuButton" onClick={logout}>
-              Logout
-            </button>
+            <button className="menuButton" onClick={logout}>Logout</button>
           </div>
         )}
       </div>

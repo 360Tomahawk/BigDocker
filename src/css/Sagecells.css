@@ -78,3 +78,7 @@
 .btn_scrollTop:hover {
   background-color: #464957; /* Add a dark-grey background on hover */
 }
+
+.sagecell_poweredBy {
+  display: none;
+}
