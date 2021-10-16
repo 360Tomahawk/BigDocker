@@ -2,11 +2,12 @@ table {
   text-align: center;
   padding: 10px;
   border: 1px solid black;
-  background-color: #f4f4f4;
+  background-color: inherit;
+  width: 100%;
 }
 
-tr {
-}
+/* tr {
+} */
 
 td {
   padding: 10px;

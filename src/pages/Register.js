@@ -39,8 +39,12 @@ const Register = () => {
         switch (error.code) {
           case "auth/weak-password":
             setErrorMessage(error.message);
+            setLoading(false);
+            break;
           case "auth/email-already-in-use":
             setErrorMessage(error.message);
+            setLoading(false);
+            break;
           default:
             setLoading(false);
             break;
