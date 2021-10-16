@@ -1,0 +1,22 @@
+table {
+  text-align: center;
+  padding: 10px;
+  border: 1px solid black;
+  background-color: #f4f4f4;
+}
+
+tr {
+}
+
+td {
+  padding: 10px;
+  width: 200px;
+}
+th {
+  width: 200px;
+  padding: 10px;
+}
+
+.link {
+  text-align: left;
+}

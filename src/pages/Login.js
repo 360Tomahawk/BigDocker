@@ -10,7 +10,6 @@ const Login = () => {
 
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [valid, setValid] = useState(false);
   const login = (event) => {
     event.preventDefault();
     const email = emailRef.current.value;
@@ -22,7 +21,6 @@ const Login = () => {
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then((result) => {
-        setValid(true);
         history.push("/");
       })
       .catch((error) => {

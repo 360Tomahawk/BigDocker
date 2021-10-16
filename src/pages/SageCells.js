@@ -16,7 +16,7 @@ const SageCells = () => {
   const [showScroll, setShowScroll] = useState(false);
 
   //file upload stuff
-  const [update, setUpdate] = useState(false);
+  // const [update, setUpdate] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [files, setFiles] = useState([]);
   let reader;
@@ -116,7 +116,6 @@ const SageCells = () => {
         document.getElementById("result").src = reader.result;
         document.getElementById("result").value = "received";
         console.log(reader);
-        setUpdate(true);
       };
       reader.readAsDataURL(temp[0]);
     };
@@ -130,31 +129,73 @@ const SageCells = () => {
         "Please select a dataset to upload first.";
       document.getElementById("result").focus();
     } else {
-      let task = storage.ref().child(Math.random().toString(36)).put(files[0]);
+      let task = "";
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          console.log("user is logged in");
+          const childPath = `post/${
+            firebase.auth().currentUser.uid
+          }/${Math.random().toString(36)}`;
+          task = storage.ref().child(childPath).put(files[0]);
+          const taskProgress = (snapshot) => {
+            document.getElementById("progress").innerHTML = `Transferred: ${
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            }%`;
+            // console.log(`transferred: ${snapshot.bytesTransferred}`);
+          };
 
-      const taskProgress = (snapshot) => {
-        document.getElementById("progress").innerHTML = `Transferred: ${
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        }%`;
-        console.log(`transferred: ${snapshot.bytesTransferred}`);
-      };
+          const taskCompleted = () => {
+            task.snapshot.ref.getDownloadURL().then((snapshot) => {
+              savePostData(snapshot);
+              console.log(snapshot);
+            });
+          };
+          const taskError = (snapshot) => {
+            console.log(snapshot);
+          };
+          task.on("state_changed", taskProgress, taskError, taskCompleted);
+        } else {
+          console.log("user is not logged in");
+          task = storage.ref().child(Math.random().toString(36)).put(files[0]);
+          const taskProgress = (snapshot) => {
+            document.getElementById("progress").innerHTML = `Transferred: ${
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            }%`;
+            // console.log(`transferred: ${snapshot.bytesTransferred}`);
+          };
 
-      const taskCompleted = () => {
-        task.snapshot.ref.getDownloadURL().then((snapshot) => {
-          savePostData(snapshot);
-          console.log(snapshot);
-        });
-      };
-      const taskError = (snapshot) => {
-        console.log(snapshot);
-      };
-      task.on("state_changed", taskProgress, taskError, taskCompleted);
+          const taskCompleted = () => {
+            task.snapshot.ref.getDownloadURL().then((snapshot) => {
+              savePostData(snapshot);
+            });
+          };
+          const taskError = (snapshot) => {
+            console.log(snapshot);
+          };
+          task.on("state_changed", taskProgress, taskError, taskCompleted);
+        }
+      });
     }
   };
 
-  const savePostData = (profilefile) => {
-    console.log(profilefile);
-    document.getElementById("link").innerHTML = profilefile;
+  const savePostData = (file) => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        firebase
+          .firestore()
+          .collection("users")
+          .doc(firebase.auth().currentUser.uid)
+          .collection("uploads")
+          .add({
+            file: file,
+            dateAdded: firebase.firestore.FieldValue.serverTimestamp(),
+          })
+          .then(function () {});
+        document.getElementById("link").innerHTML = file;
+      } else {
+        document.getElementById("link").innerHTML = file;
+      }
+    });
   };
 
   return (

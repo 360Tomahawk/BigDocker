@@ -11,13 +11,13 @@ const Register = () => {
 
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [valid, setValid] = useState(false);
 
   const register = (event) => {
     event.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
     const name = nameRef.current.value;
+    setLoading(true);
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
@@ -31,10 +31,20 @@ const Register = () => {
             name: name,
           })
           .then(function () {
-            setValid(true);
             history.push("/");
           });
         console.log(result);
+      })
+      .catch((error) => {
+        switch (error.code) {
+          case "auth/weak-password":
+            setErrorMessage(error.message);
+          case "auth/email-already-in-use":
+            setErrorMessage(error.message);
+          default:
+            setLoading(false);
+            break;
+        }
       });
   };
 
