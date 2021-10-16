@@ -45,7 +45,7 @@ const Main = () => {
         <h1>Welcome to BigDocker</h1>
         <br />
         <p>New to the app?</p>
-        <button className="getStarted">Get Started</button>
+        <button className="menuButton">Get Started</button>
       </div>
       <div className="mainText">
         <br />
@@ -54,13 +54,13 @@ const Main = () => {
           <div>
             <p>Have an account?</p>
             <Link to="/Login">
-              <button className="getStarted">Login</button>
+              <button className="menuButton">Login</button>
             </Link>
           </div>
         ) : (
           <div>
             <div>Welcome, {user.name}</div>
-            <button className="getStarted" onClick={logout}>
+            <button className="menuButton" onClick={logout}>
               Logout
             </button>
           </div>

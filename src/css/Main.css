@@ -2,14 +2,14 @@
     /* do some stuff here */
 }
 
-.getStarted {
+.menuButton {
     border-radius: 4px;
     font-size: 16px;
     padding: 8px 16px;
     transition-duration: 0.25s;
   }
   
-.getStarted:hover {
+.menuButton:hover {
     background-color: #4697ce;; /* Green */
     color: white;
 }

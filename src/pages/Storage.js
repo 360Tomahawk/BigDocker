@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../App.css";
 import "../css/Storage.css";
 import firebase from "firebase";
+import { Link } from "react-router-dom";
 
 const Storage = () => {
   const [valid, setValid] = useState(false);
@@ -60,7 +61,11 @@ const Storage = () => {
           </table>
         </div>
       ) : (
-        <div>This section is only avaiable for logged in users</div>
+        <div>This section is only available for logged in users<br/>
+          <Link to="/Login">
+                <button className="menuButton">Login</button>
+          </Link>
+        </div>
       )}
     </div>
   );

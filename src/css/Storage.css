@@ -20,3 +20,15 @@ th {
 .link {
   text-align: left;
 }
+
+.menuButton {
+  border-radius: 4px;
+  font-size: 16px;
+  padding: 8px 16px;
+  transition-duration: 0.25s;
+}
+
+.menuButton:hover {
+  background-color: #4697ce;; /* Green */
+  color: white;
+}
