@@ -4,11 +4,42 @@ import "../css/Main.css";
 import { FaReact, FaDocker, FaGithub } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
+import {Tour, Step} from "react-rtg";
+import "react-rtg/build/index.css";
+
 import firebase from "firebase";
+
+const TourGuide = ({isOpen, setOpen}) => {
+  return (
+      <Tour isOpen={isOpen} 
+            onClose={setOpen.bind(null, false)} 
+            onOpen={setOpen.bind(null, true)}>
+          <Step placement="center">
+              <p>Welcome to BigDocker!</p>
+          </Step>
+          <Step selector=".darkmodeStuff" placement="bottom">
+              <p>Here you can toggle dark mode</p>
+          </Step>
+          <Step selector=".loginButton" placement="right">
+              <p>We recommend logging in for the best user experience</p>
+          </Step>
+          <Step selector=".btnHelp" placement="right">
+              <p>Need help with coding? Click here!</p>
+          </Step>
+          <Step selector=".btnSandbox" placement="right">
+              <p>Ready to start coding? Click here!</p>
+          </Step>
+          <Step placement="center">
+              <p>Have a great time!</p>
+          </Step>
+      </Tour>
+  )
+};
 
 const Main = () => {
   const [valid, setValid] = useState(false);
   const [user, setUser] = useState([]);
+  const [isTourOpen, setIsTourOpen] = useState(false);
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
@@ -39,22 +70,23 @@ const Main = () => {
         setValid(false);
       });
   };
+  
   return (
     <div className="page-content">
+      <TourGuide isOpen={isTourOpen} setOpen={setIsTourOpen}/>
       <div className="mainText">
         <h1>Welcome to BigDocker</h1>
         <br />
         <p>New to the app?</p>
-        <button className="menuButton">Get Started</button>
+        <button className="menuButton" onClick={setIsTourOpen.bind(null, true)}>Get Started</button>
       </div>
       <div className="mainText">
         <br />
-
         {!valid ? (
           <div>
             <p>Have an account?</p>
             <Link to="/Login">
-              <button className="menuButton">Login</button>
+              <button className="menuButton loginButton">Login</button>
             </Link>
           </div>
         ) : (

@@ -30,7 +30,7 @@ function Navbar() {
                     {NavbarData.map((item, index) => {
                         return(
                             <li key={index} className={item.cName}>
-                                <Link to={item.path}>
+                                <Link to={item.path} className={"btn" + item.title}>
                                     {item.icon}
                                     {item.title}
                                 </Link>
