@@ -5,10 +5,12 @@ import firebase from "firebase";
 import { Link } from "react-router-dom";
 
 const Storage = () => {
-  const [valid, setValid] = useState(false);
   const [summary, setSummary] = useState([]);
+  const [valid, setValid] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
+    setSummary([]);
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         const currentUserRef = firebase.firestore().collection("users");
@@ -23,9 +25,11 @@ const Storage = () => {
           })
           .then(function () {
             setValid(true);
+            setIsLoaded(true);
           });
       } else {
         setValid(false);
+        setIsLoaded(true);
       }
     });
   }, []);
@@ -36,34 +40,53 @@ const Storage = () => {
     });
   };
   const getDate = (date) => {
-    return new Date(date * 1000).toString().substring(4, 21);
+    if (date === null) {
+      return 0;
+    } else {
+      return new Date(date * 1000).toString().substring(4, 21);
+    }
   };
+
+  if (!isLoaded) {
+    return (
+      <div className="page-content">
+        <div>Loading . . .</div>
+      </div>
+    );
+  }
   return (
     <div className="page-content">
       {valid ? (
-        <div>
-          <div>These are the files that you have uploaded</div>
-          <br />
-          <br />
-          <table>
-            <tbody>
-              <tr>
-                <th>File Link</th>
-                <th>Date Added</th>
-              </tr>
-              {summary.map((data) => (
-                <tr key={data.file}>
-                  <td className="link">{data.file}</td>
-                  <td>{getDate(data.dateAdded["seconds"])}</td>
+        summary.length === 0 ? (
+          <div>You have not uploaded any files yet.</div>
+        ) : (
+          <div>
+            <div>These are the files that you have uploaded</div>
+            <br />
+            <br />
+            <table>
+              <tbody>
+                <tr>
+                  <th>File Link</th>
+                  <th>Date Added</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                {summary.map((data) => (
+                  <tr key={data.file}>
+                    <td className="link">{data.file}</td>
+                    <td>{getDate(data.dateAdded["seconds"])}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )
       ) : (
-        <div>This section is only available for logged in users<br/>
+        <div>
+          This section is only available for logged in users
+          <br />
+          <br />
           <Link to="/Login">
-                <button className="menuButton">Login</button>
+            <button className="menuButton">Login</button>
           </Link>
         </div>
       )}

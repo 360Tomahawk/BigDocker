@@ -8,16 +8,17 @@ import { TourGuide } from "../components/TourSteps";
 
 import firebase from "firebase";
 
-
 const Main = () => {
   const [valid, setValid] = useState(false);
   const [user, setUser] = useState([]);
   const [isTourOpen, setIsTourOpen] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         setValid(true);
+        setIsLoaded(false);
         const currentUserRef = firebase.firestore().collection("users");
         currentUserRef
           .doc(user.uid)
@@ -25,8 +26,11 @@ const Main = () => {
           .then((doc) => {
             if (doc.exists) {
               setUser(doc.data());
+              setIsLoaded(true);
             }
           });
+      } else {
+        setIsLoaded(true);
       }
     });
 
@@ -43,15 +47,24 @@ const Main = () => {
         setValid(false);
       });
   };
-  
+  if (!isLoaded) {
+    return (
+      <div className="page-content">
+        <div>Loading . . . </div>
+      </div>
+    );
+  }
+
   return (
     <div className="page-content">
-      <TourGuide isOpen={isTourOpen} setOpen={setIsTourOpen}/>
+      <TourGuide isOpen={isTourOpen} setOpen={setIsTourOpen} />
       <div className="mainText">
         <h1>Welcome to BigDocker</h1>
         <br />
         <p>New to the app?</p>
-        <button className="menuButton" onClick={setIsTourOpen.bind(null, true)}>Get Started</button>
+        <button className="menuButton" onClick={setIsTourOpen.bind(null, true)}>
+          Get Started
+        </button>
       </div>
       <div className="mainText">
         <br />
@@ -65,7 +78,9 @@ const Main = () => {
         ) : (
           <div>
             <div>Welcome, {user.name}</div>
-            <button className="menuButton" onClick={logout}>Logout</button>
+            <button className="menuButton" onClick={logout}>
+              Logout
+            </button>
           </div>
         )}
       </div>

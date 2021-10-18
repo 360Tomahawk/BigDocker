@@ -6,6 +6,12 @@ import { FaCaretDown } from "react-icons/fa";
 import { ImArrowUp } from "react-icons/im";
 
 const SageCells = () => {
+  if (document.getElementById("link")) {
+    document.getElementById("link").innerHTML = "";
+  }
+  if (document.getElementById("progress")) {
+    document.getElementById("progress").innerHTML = "";
+  }
   //change this variable to change maximum cells
   const cellLimit = 100;
   const [cellInfos, setCellInfos] = useState([]);
@@ -19,6 +25,7 @@ const SageCells = () => {
   // const [update, setUpdate] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [files, setFiles] = useState([]);
+  const [user, setUser] = useState([]);
   let reader;
   const storage = firebase.storage();
 
@@ -81,6 +88,9 @@ const SageCells = () => {
 
   // consider this a init function
   useEffect(() => {
+    firebase.auth().onAuthStateChanged((user) => {
+      setUser(user);
+    });
     loadCells();
     window.addEventListener("scroll", () => {
       //arbitary value for now
@@ -138,10 +148,12 @@ const SageCells = () => {
           }/${Math.random().toString(36)}`;
           task = storage.ref().child(childPath).put(files[0]);
           const taskProgress = (snapshot) => {
-            document.getElementById("progress").innerHTML = `Transferred: ${
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            }%`;
-            // console.log(`transferred: ${snapshot.bytesTransferred}`);
+            if (document.getElementById("progress")) {
+              document.getElementById("progress").innerHTML = `Transferred: ${
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+              }%`;
+              // console.log(`transferred: ${snapshot.bytesTransferred}`);
+            }
           };
 
           const taskCompleted = () => {
@@ -158,10 +170,12 @@ const SageCells = () => {
           console.log("user is not logged in");
           task = storage.ref().child(Math.random().toString(36)).put(files[0]);
           const taskProgress = (snapshot) => {
-            document.getElementById("progress").innerHTML = `Transferred: ${
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            }%`;
-            // console.log(`transferred: ${snapshot.bytesTransferred}`);
+            if (document.getElementById("progress")) {
+              document.getElementById("progress").innerHTML = `Transferred: ${
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+              }%`;
+              // console.log(`transferred: ${snapshot.bytesTransferred}`);
+            }
           };
 
           const taskCompleted = () => {
@@ -190,10 +204,13 @@ const SageCells = () => {
             file: file,
             dateAdded: firebase.firestore.FieldValue.serverTimestamp(),
           })
-          .then(function () {});
-        document.getElementById("link").innerHTML = file;
+          .then(function () {
+            if (document.getElementById("link"))
+              document.getElementById("link").innerHTML = file;
+          });
       } else {
-        document.getElementById("link").innerHTML = file;
+        if (document.getElementById("link"))
+          document.getElementById("link").innerHTML = file;
       }
     });
   };
@@ -223,11 +240,17 @@ const SageCells = () => {
           </div>
         </div>
       </div>
-      <input placeholder="Upload Dataset" onClick={onUpload} id="result" />
-      <button onClick={onChangeFile}>Upload Dataset </button>
-      <span id="progress"></span>
-      <br></br>
-      <span id="link"></span>
+      {user === null || user.length === 0 ? (
+        <div>You have to be authenticated in order to use Firebase Storage</div>
+      ) : (
+        <div>
+          <input placeholder="Upload Dataset" onClick={onUpload} id="result" />
+          <button onClick={onChangeFile}>Upload Dataset </button>
+          <span id="progress"></span>
+          <br></br>
+          <span id="link"></span>
+        </div>
+      )}
       <br></br>
       <br></br>
       Type your own computation below and click “Evaluate”.
