@@ -27,11 +27,6 @@
   font-size: 2rem;
   color: #f5f5f5;
   margin: 0 auto;
-  transition: transform 0.25s;
-}
-
-.app-title:hover {
-  transform: scale(1.1);
 }
   
 .menu-bars {
@@ -88,4 +83,26 @@
   display:flex;
   position: absolute;
   right: 40px;
+}
+
+.mainText {
+  /* do some stuff here */
+  display:flex;
+  position: absolute;
+  right: 155px;
+}
+
+.menuButton {
+  margin: 10px;
+  border-radius: 4px;
+  font-size: 16px;
+  padding: 8px 16px;
+  transition-duration: 0.25s;
+}
+
+.menuButton:hover {
+  background-color: #4697ce;
+  ;
+  /* Green */
+  color: white;
 }

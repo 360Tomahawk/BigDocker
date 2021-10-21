@@ -1,45 +1,109 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
-import {IconContext} from 'react-icons';
+import React, { useState, useEffect } from "react";
+import { Link } from 'react-router-dom';
+import { IconContext } from 'react-icons';
 
 import useDarkMode from 'use-dark-mode';
 import ToggleSwitch from "../components/ToggleSwitch"
 
-import {IoMdMoon} from "react-icons/io";
-import {FaDocker} from "react-icons/fa";
+import { IoMdMoon } from "react-icons/io";
+import { FaUserCircle, FaDocker } from "react-icons/fa";
 
-import {NavbarData} from './NavbarData';
-import  "../css/Navbar.css"
+import { NavbarData } from './NavbarData';
+import "../css/Navbar.css"
+
+import firebase from "firebase";
 
 function Navbar() {
 
     const darkMode = useDarkMode(false);
 
+    const [valid, setValid] = useState(false);
+    const [user, setUser] = useState([]);
+
+    const logout = () => {
+        firebase
+            .auth()
+            .signOut()
+            .then(function () {
+                setValid(false);
+            });
+    };
+
+    useEffect(() => {
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                setValid(true);
+                setIsLoaded(false);
+                const currentUserRef = firebase.firestore().collection("users");
+                currentUserRef
+                    .doc(user.uid)
+                    .get()
+                    .then((doc) => {
+                        if (doc.exists) {
+                            setUser(doc.data());
+                            setIsLoaded(true);
+                        }
+                    });
+            } else {
+                setIsLoaded(true);
+            }
+        });
+
+        return () => {
+            setUser([]);
+        };
+    }, []); // leave dependency empty
+
+    const [isLoaded, setIsLoaded] = useState(false);
+
+  if (!isLoaded) {
+    return (
+      <div className="page-content">
+        <div>Loading . . . </div>
+      </div>
+    );
+  }
+
     return (
         <>
-        <IconContext.Provider value={{color:'#fff', className:"iconstyle"}}>
-            <div className="headerbar">
-                <Link to="/" className="app-title"><FaDocker/>BigDocker</Link>
-                <div className="darkmodeStuff">
-                    <IoMdMoon size={20}/><ToggleSwitch id="darkmodetoggle" optionLabels={[]} small={true} checked={darkMode.value} onChange={darkMode.toggle} />
-                </div>
-            </div>
-            <nav className='nav-menu'>
-                {/* Hide the sidebar if anything is clicked */}
-                <ul className='nav-menu-items'>
-                    {NavbarData.map((item, index) => {
-                        return(
-                            <li key={index} className={item.cName}>
-                                <Link to={item.path} className={"btn" + item.title}>
-                                    {item.icon}
-                                    {item.title}
+            <IconContext.Provider value={{ color: '#fff', className: "iconstyle" }}>
+                <div className="headerbar">
+                    <Link to="/" className="app-title"><FaDocker />BigDocker</Link>
+                    <div className="mainText">
+                        {!valid ? (
+                            <div>
+                                Have an account?
+                                <Link to="/Login">
+                                    <button className="menuButton loginButton">Login</button>
                                 </Link>
-                            </li>
-                        )
-                    })}
-                </ul>
-            </nav>
-        </IconContext.Provider>
+                            </div>
+                        ) : (
+                            <div>
+                                <FaUserCircle size={24} /> Welcome, {user.name}
+                                <button className="menuButton" onClick={logout}>Logout</button>
+                            </div>
+                        )}
+                    </div>
+                    <div className="darkmodeStuff">
+                        <IoMdMoon size={20} /><ToggleSwitch id="darkmodetoggle" optionLabels={[]} small={true} checked={darkMode.value} onChange={darkMode.toggle} />
+                    </div>
+                </div>
+                <nav className='nav-menu'>
+                    {/* Hide the sidebar if anything is clicked */}
+                    <ul className='nav-menu-items'>
+                        {NavbarData.map((item, index) => {
+                            return (
+                                <li key={index} className={item.cName}>
+                                    <Link to={item.path} className={"btn" + item.title}>
+                                        {item.icon}
+                                        {item.title}
+                                    </Link>
+                                </li>
+                            )
+                        })}
+                    </ul>
+                </nav>
+            </IconContext.Provider>
         </>
     )
 }
