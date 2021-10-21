@@ -195,14 +195,17 @@ const SageCells = () => {
   const savePostData = (file) => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
+        let key = generateKey();
         firebase
           .firestore()
           .collection("users")
           .doc(firebase.auth().currentUser.uid)
           .collection("uploads")
-          .add({
+          .doc(key)
+          .set({
             file: file,
             dateAdded: firebase.firestore.FieldValue.serverTimestamp(),
+            uid: key,
           })
           .then(function () {
             if (document.getElementById("link"))
@@ -213,6 +216,16 @@ const SageCells = () => {
           document.getElementById("link").innerHTML = file;
       }
     });
+  };
+
+  const generateKey = () => {
+    const chars =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let autoId = "";
+    for (let i = 0; i < 30; i++) {
+      autoId += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return autoId;
   };
 
   return (

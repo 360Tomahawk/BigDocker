@@ -13,8 +13,9 @@ const Storage = () => {
     setSummary([]);
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        const currentUserRef = firebase.firestore().collection("users");
-        currentUserRef
+        firebase
+          .firestore()
+          .collection("users")
           .doc(user.uid)
           .collection("uploads")
           .get()
@@ -46,6 +47,40 @@ const Storage = () => {
       return new Date(date * 1000).toString().substring(4, 21);
     }
   };
+  const copyLink = (link) => {
+    navigator.clipboard.writeText(link);
+  };
+
+  const onClickLink = (value) => {
+    copyLink(value.target.innerHTML);
+  };
+
+  const deleteFile = (id, file) => {
+    let res = file.split("?alt=");
+    res = res[0].split("%2F");
+
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        firebase
+          .firestore()
+          .collection("users")
+          .doc(user.uid)
+          .collection("uploads")
+          .doc(id)
+          .delete()
+          .then(function () {
+            const storage = firebase.storage();
+            const ref = storage
+              .ref()
+              .child("post/" + user.uid + "/" + res[2])
+              .delete();
+          })
+          .then(function () {
+            window.location.reload(false);
+          });
+      }
+    });
+  };
 
   if (!isLoaded) {
     return (
@@ -69,11 +104,19 @@ const Storage = () => {
                 <tr>
                   <th>File Link</th>
                   <th>Date Added</th>
+                  <th>Delete File</th>
                 </tr>
                 {summary.map((data) => (
                   <tr key={data.file}>
-                    <td className="link">{data.file}</td>
+                    <td className="link hover" onClick={onClickLink}>
+                      {data.file}
+                    </td>
                     <td>{getDate(data.dateAdded["seconds"])}</td>
+                    <td>
+                      <button onClick={() => deleteFile(data.uid, data.file)}>
+                        Delete
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
