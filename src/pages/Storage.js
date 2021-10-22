@@ -3,6 +3,7 @@ import "../App.css";
 import "../css/Storage.css";
 import firebase from "firebase";
 import { Link } from "react-router-dom";
+import { FaCopy, FaTrashAlt } from "react-icons/fa";
 
 const Storage = () => {
   const [summary, setSummary] = useState([]);
@@ -47,12 +48,10 @@ const Storage = () => {
       return new Date(date * 1000).toString().substring(4, 21);
     }
   };
-  const copyLink = (link) => {
-    navigator.clipboard.writeText(link);
-  };
 
-  const onClickLink = (value) => {
-    copyLink(value.target.innerHTML);
+  const onClickLink = (value, id) => {
+    document.getElementById(id).innerHTML = "Link Copied!";
+    navigator.clipboard.writeText(value);
   };
 
   const deleteFile = (id, file) => {
@@ -82,6 +81,16 @@ const Storage = () => {
     });
   };
 
+  const resetToolTipText = (event) => {
+    document.getElementById(event).innerHTML = "Click to copy link";
+  };
+
+  const getFileName = (link) => {
+    let res = link.split("wat2%2F");
+    let res2 = res[1].split("?alt=media");
+    let replace = res2[0].replaceAll("%20", " ");
+    return replace;
+  };
   if (!isLoaded) {
     return (
       <div className="page-content">
@@ -93,29 +102,59 @@ const Storage = () => {
     <div className="page-content">
       {valid ? (
         summary.length === 0 ? (
-          <div>You have not uploaded any files yet.</div>
+          <div>
+            <h2>My Uploads</h2>
+            <br />
+            <div>You have not uploaded any files yet.</div>
+          </div>
         ) : (
           <div>
-            <div>These are the files that you have uploaded</div>
+            <h2>My Uploads</h2>
             <br />
             <br />
             <table>
               <tbody>
                 <tr>
-                  <th>File Link</th>
+                  <th>File Name</th>
                   <th>Date Added</th>
+                  <th>File Size</th>
+                  <th>Copy Link</th>
                   <th>Delete File</th>
                 </tr>
-                {summary.map((data) => (
+                {summary.map((data, index) => (
                   <tr key={data.file}>
-                    <td className="link hover" onClick={onClickLink}>
-                      {data.file}
+                    <td className="link " id={data.file}>
+                      {getFileName(data.file)}
                     </td>
                     <td>{getDate(data.dateAdded["seconds"])}</td>
+                    <td>{data.fileSize} bytes</td>
+                    <td className="tdLink">
+                      <span className="tooltip">
+                        <FaCopy
+                          size={24}
+                          // onMouseOver={resetToolTipText}
+                          onClick={() =>
+                            onClickLink(data.file, index + "tooltip")
+                          }
+                          onMouseOver={() =>
+                            resetToolTipText(index + "tooltip")
+                          }
+                        />
+                        <span className="tooltiptext" id={index + "tooltip"}>
+                          Click to copy link
+                        </span>
+                      </span>
+                    </td>
                     <td>
-                      <button onClick={() => deleteFile(data.uid, data.file)}>
-                        Delete
-                      </button>
+                      <span className="tooltip">
+                        <FaTrashAlt
+                          size={24}
+                          onClick={() => deleteFile(data.uid, data.file)}
+                        />
+                        <span className="tooltiptext" id={index + "tooltip"}>
+                          Click to delete
+                        </span>
+                      </span>
                     </td>
                   </tr>
                 ))}

@@ -25,6 +25,8 @@ const SageCells = () => {
   // const [update, setUpdate] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [files, setFiles] = useState([]);
+  const [newFileName, setNewFileName] = useState("");
+  const [fileSize, setfileSize] = useState("");
   const [user, setUser] = useState([]);
   let reader;
   const storage = firebase.storage();
@@ -120,11 +122,14 @@ const SageCells = () => {
 
     input.onchange = (e) => {
       let temp = e.target.files;
+      console.log(temp);
+      setNewFileName(temp[0].name);
+      setfileSize(temp[0].size);
       setFiles(temp);
       reader = new FileReader();
       reader.onload = function () {
         document.getElementById("result").src = reader.result;
-        document.getElementById("result").value = "received";
+        document.getElementById("result").value = temp[0].name;
         console.log(reader);
       };
       reader.readAsDataURL(temp[0]);
@@ -145,7 +150,7 @@ const SageCells = () => {
           console.log("user is logged in");
           const childPath = `post/${
             firebase.auth().currentUser.uid
-          }/${Math.random().toString(36)}`;
+          }/${newFileName}`;
           task = storage.ref().child(childPath).put(files[0]);
           const taskProgress = (snapshot) => {
             if (document.getElementById("progress")) {
@@ -206,6 +211,7 @@ const SageCells = () => {
             file: file,
             dateAdded: firebase.firestore.FieldValue.serverTimestamp(),
             uid: key,
+            fileSize: fileSize,
           })
           .then(function () {
             if (document.getElementById("link"))
