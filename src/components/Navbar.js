@@ -54,7 +54,7 @@ function Navbar() {
       <IconContext.Provider value={{ color: "#fff", className: "iconstyle" }}>
         <div className="headerbar">
           <Link to="/" className="app-title">
-            <FaDocker />
+            <FaDocker size={"2rem"} />
             BigDocker
           </Link>
           <div className="mainText">
@@ -67,15 +67,13 @@ function Navbar() {
               </div>
             ) : (
               <div>
-                <FaUserCircle size={24} /> Welcome, {user.name}
-                <button className="menuButton" onClick={logout}>
-                  Logout
-                </button>
+                <FaUserCircle/> Welcome, {user.name}
+                <button className="menuButton" onClick={logout}>Logout</button>
               </div>
             )}
           </div>
           <div className="darkmodeStuff">
-            <IoMdMoon size={20} />
+            <IoMdMoon/>
             <ToggleSwitch
               id="darkmodetoggle"
               optionLabels={[]}
