@@ -1,11 +1,14 @@
 import "../css/Sagecells.css";
 import "../App.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import firebase from "firebase";
 import { FaCaretDown } from "react-icons/fa";
 import { ImArrowUp } from "react-icons/im";
 
+import AuthContext from "../store/auth-context";
 const SageCells = () => {
+  const ctx = useContext(AuthContext);
+
   if (document.getElementById("link")) {
     document.getElementById("link").innerHTML = "";
   }
@@ -27,7 +30,6 @@ const SageCells = () => {
   const [files, setFiles] = useState([]);
   const [newFileName, setNewFileName] = useState("");
   const [fileSize, setfileSize] = useState("");
-  const [user, setUser] = useState([]);
   let reader;
   const storage = firebase.storage();
 
@@ -90,9 +92,6 @@ const SageCells = () => {
 
   // consider this a init function
   useEffect(() => {
-    firebase.auth().onAuthStateChanged((user) => {
-      setUser(user);
-    });
     loadCells();
     window.addEventListener("scroll", () => {
       //arbitary value for now
@@ -147,7 +146,6 @@ const SageCells = () => {
       let task = "";
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
-          console.log("user is logged in");
           const childPath = `post/${
             firebase.auth().currentUser.uid
           }/${newFileName}`;
@@ -198,30 +196,8 @@ const SageCells = () => {
   };
 
   const savePostData = (file) => {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        let key = generateKey();
-        firebase
-          .firestore()
-          .collection("users")
-          .doc(firebase.auth().currentUser.uid)
-          .collection("uploads")
-          .doc(key)
-          .set({
-            file: file,
-            dateAdded: firebase.firestore.FieldValue.serverTimestamp(),
-            uid: key,
-            fileSize: fileSize,
-          })
-          .then(function () {
-            if (document.getElementById("link"))
-              document.getElementById("link").innerHTML = file;
-          });
-      } else {
-        if (document.getElementById("link"))
-          document.getElementById("link").innerHTML = file;
-      }
-    });
+    let key = generateKey();
+    ctx.onSavePost(file, key, fileSize);
   };
 
   const generateKey = () => {
@@ -259,7 +235,7 @@ const SageCells = () => {
           </div>
         </div>
       </div>
-      {user === null || user.length === 0 ? (
+      {!ctx.isLoggedIn ? (
         <div>You have to be authenticated in order to use Firebase Storage</div>
       ) : (
         <div>

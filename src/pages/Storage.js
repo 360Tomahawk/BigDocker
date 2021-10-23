@@ -1,46 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext } from "react";
 import "../App.css";
 import "../css/Storage.css";
-import firebase from "firebase";
 import { Link } from "react-router-dom";
 import { FaCopy, FaTrashAlt } from "react-icons/fa";
 
+import AuthContext from "../store/auth-context";
 const Storage = () => {
-  const [summary, setSummary] = useState([]);
-  const [valid, setValid] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  useEffect(() => {
-    setSummary([]);
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        firebase
-          .firestore()
-          .collection("users")
-          .doc(user.uid)
-          .collection("uploads")
-          .get()
-          .then((snapshot) => {
-            snapshot.forEach((doc) => {
-              addSummary(doc.data());
-            });
-          })
-          .then(function () {
-            setValid(true);
-            setIsLoaded(true);
-          });
-      } else {
-        setValid(false);
-        setIsLoaded(true);
-      }
-    });
-  }, []);
-
-  const addSummary = (list) => {
-    setSummary((prevList) => {
-      return [list, ...prevList];
-    });
-  };
+  const ctx = useContext(AuthContext);
   const getDate = (date) => {
     if (date === null) {
       return 0;
@@ -57,28 +23,8 @@ const Storage = () => {
   const deleteFile = (id, file) => {
     let res = file.split("?alt=");
     res = res[0].split("%2F");
-
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        firebase
-          .firestore()
-          .collection("users")
-          .doc(user.uid)
-          .collection("uploads")
-          .doc(id)
-          .delete()
-          .then(function () {
-            const storage = firebase.storage();
-            const ref = storage
-              .ref()
-              .child("post/" + user.uid + "/" + res[2])
-              .delete();
-          })
-          .then(function () {
-            window.location.reload(false);
-          });
-      }
-    });
+    let fileName = res[2].replaceAll("%20", " ");
+    ctx.onFileDelete(id, fileName);
   };
 
   const resetToolTipText = (event) => {
@@ -91,7 +37,7 @@ const Storage = () => {
     let replace = res2[0].replaceAll("%20", " ");
     return replace;
   };
-  if (!isLoaded) {
+  if (!ctx.isLoaded) {
     return (
       <div className="page-content">
         <div>Loading . . .</div>
@@ -100,8 +46,8 @@ const Storage = () => {
   }
   return (
     <div className="page-content">
-      {valid ? (
-        summary.length === 0 ? (
+      {ctx.isLoggedIn ? (
+        ctx.userFiles.length === 0 ? (
           <div>
             <h2>My Uploads</h2>
             <br />
@@ -121,7 +67,7 @@ const Storage = () => {
                   <th>Copy Link</th>
                   <th>Delete File</th>
                 </tr>
-                {summary.map((data, index) => (
+                {ctx.userFiles.map((data, index) => (
                   <tr key={data.file}>
                     <td className="link " id={data.file}>
                       {getFileName(data.file)}

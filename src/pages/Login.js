@@ -1,53 +1,25 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef } from "react";
 import "../css/Login.css";
 import { Link, useHistory } from "react-router-dom";
-import firebase from "firebase";
+
+import AuthContext from "../store/auth-context";
 
 const Login = () => {
+  const ctx = useContext(AuthContext);
   const history = useHistory();
   const emailRef = useRef();
   const passwordRef = useRef();
 
-  const [errorMessage, setErrorMessage] = useState("");
-  const [loading, setLoading] = useState(false);
   const login = (event) => {
     event.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-    console.log(email, password);
-    setLoading(true);
-    setErrorMessage("");
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then((result) => {
-        history.push("/");
-      })
-      .catch((error) => {
-        switch (error.code) {
-          case "auth/user-not-found":
-            setErrorMessage("Invalid Username/Password");
-            break;
-          case "auth/wrong-password":
-            setErrorMessage("Invalid Username/Password");
-            break;
-          case "auth/invalid-email":
-            setErrorMessage("Invalid Username/Password");
-            break;
-          case "auth/too-many-requests":
-            setErrorMessage(
-              "Too many incorrect attempts, please try again later."
-            );
-            break;
-          default:
-            setErrorMessage(error.code);
-            break;
-        }
-      })
-      .then(function () {
-        setLoading(false);
-      });
+    ctx.onLogin(email, password);
   };
+
+  if (ctx.isLoggedIn) {
+    history.push("/");
+  }
 
   return (
     <div className="page-content">
@@ -74,14 +46,9 @@ const Login = () => {
           />
           <br />
           <br />
-          <div>{errorMessage}</div>
+          <div>{ctx.errorMessage}</div>
           <br />
-
-          {!loading ? (
-            <input className="input" type="submit" value="Login" />
-          ) : (
-            <div>Loading . . .</div>
-          )}
+          <input className="input" type="submit" value="Login" />
         </form>
         <br />
         <div>

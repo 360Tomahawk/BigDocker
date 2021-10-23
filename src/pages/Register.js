@@ -1,56 +1,26 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useContext } from "react";
 import "../css/Login.css";
 import { Link, useHistory } from "react-router-dom";
-import firebase from "firebase";
 
+import AuthContext from "../store/auth-context";
 const Register = () => {
+  const ctx = useContext(AuthContext);
   const history = useHistory();
   const emailRef = useRef();
   const passwordRef = useRef();
   const nameRef = useRef();
-
-  const [errorMessage, setErrorMessage] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const register = (event) => {
     event.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
     const name = nameRef.current.value;
-    setLoading(true);
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then((result) => {
-        firebase
-          .firestore()
-          .collection("users")
-          .doc(firebase.auth().currentUser.uid)
-          .set({
-            email: email,
-            name: name,
-          })
-          .then(function () {
-            history.push("/");
-          });
-        console.log(result);
-      })
-      .catch((error) => {
-        switch (error.code) {
-          case "auth/weak-password":
-            setErrorMessage(error.message);
-            setLoading(false);
-            break;
-          case "auth/email-already-in-use":
-            setErrorMessage(error.message);
-            setLoading(false);
-            break;
-          default:
-            setLoading(false);
-            break;
-        }
-      });
+    ctx.onRegister(email, password, name);
   };
+
+  if (ctx.isLoggedIn) {
+    history.push("/");
+  }
 
   return (
     <div className="page-content">
@@ -86,14 +56,10 @@ const Register = () => {
           />
           <br />
           <br />
-          <div>{errorMessage}</div>
+          <div>{ctx.errorMessage}</div>
           <br />
 
-          {!loading ? (
-            <input className="input" type="submit" value="Register" />
-          ) : (
-            <div>Loading . . .</div>
-          )}
+          <input className="input" type="submit" value="Register" />
         </form>
         <br />
         <div>

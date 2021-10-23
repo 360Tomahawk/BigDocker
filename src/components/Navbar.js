@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { IconContext } from "react-icons";
 
@@ -11,43 +11,10 @@ import { FaUserCircle, FaDocker } from "react-icons/fa";
 import { NavbarData } from "./NavbarData";
 import "../css/Navbar.css";
 
-import firebase from "firebase";
-
+import AuthContext from "../store/auth-context";
 function Navbar() {
+  const ctx = useContext(AuthContext);
   const darkMode = useDarkMode(false);
-
-  const [valid, setValid] = useState(false);
-  const [user, setUser] = useState([]);
-
-  const logout = () => {
-    firebase
-      .auth()
-      .signOut()
-      .then(function () {
-        setValid(false);
-      });
-  };
-
-  useEffect(() => {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        setValid(true);
-        const currentUserRef = firebase.firestore().collection("users");
-        currentUserRef
-          .doc(user.uid)
-          .get()
-          .then((doc) => {
-            if (doc.exists) {
-              setUser(doc.data());
-            }
-          });
-      }
-    });
-
-    return () => {
-      setUser([]);
-    };
-  }, []); // leave dependency empty
 
   return (
     <>
@@ -58,7 +25,7 @@ function Navbar() {
             BigDocker
           </Link>
           <div className="mainText">
-            {!valid ? (
+            {!ctx.isLoggedIn ? (
               <div>
                 Have an account?
                 <Link to="/Login">
@@ -67,8 +34,8 @@ function Navbar() {
               </div>
             ) : (
               <div>
-                <FaUserCircle size={24} /> Welcome, {user.name}
-                <button className="menuButton" onClick={logout}>
+                <FaUserCircle size={24} /> Welcome, {ctx.currentUser.name}
+                <button className="menuButton" onClick={ctx.onLogout}>
                   Logout
                 </button>
               </div>
