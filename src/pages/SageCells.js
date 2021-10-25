@@ -219,7 +219,9 @@ const SageCells = () => {
             <FaCaretDown />
           </button>
           <div className="dropdown-content">
-            <button>Open notebook</button>
+            <a href="http://localhost:3001">
+              <button>Open notebook</button>
+            </a>
             <button>Export notebook</button>
             <button>Run all</button>
           </div>
