@@ -19,9 +19,14 @@ th {
 }
 
 .link {
-  text-align: left;
+  text-align: center;
+  position: relative;
 }
-
+.icon {
+  float: right;
+  top: 10px;
+  right: -50px;
+}
 .menuButton {
   border-radius: 4px;
   font-size: 16px;
@@ -33,6 +38,55 @@ th {
   background-color: #4697ce; /* Green */
   color: white;
 }
-.hover {
+.tooltip {
   cursor: pointer;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 10px 5px;
+  z-index: 1;
+  position: relative;
+  margin-left: -50px;
+  margin-top: -100px;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -9px;
+  border-width: 10px;
+  border-style: solid;
+  border-color: black transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  top: -70px;
+}
+
+.tdLink {
+  position: relative;
+}
+.tooltip {
+  position: relative;
+  cursor: pointer;
+}
+.tooltiptext {
+  display: none;
+}
+
+.tooltip:hover .tooltiptext {
+  display: block;
+  position: absolute;
+  top: 10px;
+  left: 60%;
+  width: 100px;
 }
