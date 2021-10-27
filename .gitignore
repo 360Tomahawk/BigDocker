@@ -37,3 +37,4 @@ VERSION
 #ignoring compose, developers can continue with their own local changes.
 #new changes to compose will no longer show up
 docker-compose.yml
+docker-compose.yml
