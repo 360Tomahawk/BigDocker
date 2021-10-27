@@ -10,18 +10,14 @@ services:
   react:
     build: 
       context: https://github.com/360tomahawk/bigdocker.git#main
-    #    context: .
     image: bigdocker
     container_name: webapp
     ports:
       - 3000:3000
   sagecell:
-    image: datsabk/sagecell
-    # build:
-    #   context: https://github.com/360tomahawk/docker-sagecell.git
-    # image: sagecell
+    image: halcioncyanide/sagecell
     container_name: sageserver
-    # server port, localhost port
+    # localhost port, server port
     ports:
       - "8443:8888"
   
