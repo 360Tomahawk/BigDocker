@@ -9,8 +9,8 @@ services:
       - 3001:3001
   react:
     build: 
-    #   context: https://github.com/360tomahawk/bigdocker.git#main
-        context: .
+      context: https://github.com/360tomahawk/bigdocker.git#main
+    #    context: .
     image: bigdocker
     container_name: webapp
     ports:

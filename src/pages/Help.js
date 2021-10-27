@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../App.css";
 import "../css/Help.css";
 import { scroller } from "react-scroll";
@@ -13,6 +13,15 @@ function Help() {
   const handleClick = (value) => {
     scroll(value.target.value);
   };
+
+  useEffect(() => {
+    window.sagecell.makeSagecell({
+      inputLocation: "div.compute",
+        evalButtonText: "Evaluate",
+        linked: true,
+        hide: ["fullScreen"],
+    });
+  });
   return (
     <div className="page-content">
       <h1>Table of contents</h1>
@@ -45,7 +54,7 @@ function Help() {
                 </ul>
               </li>
               <li>
-                <button href="#" value="matlib" onClick={handleClick}>
+                <button href="#" value="matplotlib" onClick={handleClick}>
                   Matplotlib
                 </button>
                 <ul>
@@ -92,14 +101,7 @@ function Help() {
         <div className="subcontent">
           <h3>What is Pandas?</h3>
           <p>
-            Pandas is a Python library used for working with data sets. It has
-            functions for analyzing, cleaning, exploring, and manipulating data.
-            The name "Pandas" has a reference to both "Panel Data", and "Python
-            Data Analysis" and was created by Wes McKinney in 2008. Pandas
-            allows us to analyze big data and make conclusions based on
-            statistical theories. Pandas can clean messy data sets, and make
-            them readable and relevant. Relevant data is very important in data
-            science
+            Pandas is an open source data analysis tool using python programming language.
           </p>
           <br />
           <br />
@@ -132,7 +134,7 @@ function Help() {
           </p>
         </div>
       </div>
-      <div className="content matlib">
+      <div className="content matplotlib">
         <br />
         <br />
         <br />
@@ -143,11 +145,7 @@ function Help() {
         <div className="subcontent">
           <h3>What is Matplotlib?</h3>
           <p>
-            Matplotlib is a comprehensive library for creating static, animated,
-            and interactive visualizations in Python. Matplotlib makes easy
-            things easy and hard things possible. Matplotlib ships with several
-            add-on toolkits, including 3D plotting with mplot3d, axes helpers in
-            axes_grid1 and axis helpers in axisartist.
+            MatPlotLib is used for the visualization of data in python.
           </p>
         </div>
       </div>
@@ -170,7 +168,6 @@ function Help() {
           </p>
         </div>
       </div>
-      <br />
       <br />
       <br />
       <br />
@@ -212,8 +209,7 @@ function Help() {
               </li>
               <li> Symbolic (i.e. textual, symbols,…)</li>
               <li>Single valued</li>
-              <li>Multi valued</li>
-              <li>Compound</li>
+              <li>Multi valued, compound</li>
             </ul>
             <br />
             Typical means of Data Collection:
@@ -224,7 +220,65 @@ function Help() {
             </ul>
           </p>
         </div>
+        <br/>
+        <h2>Exploring a sample Dataset</h2>
+        <div className="subcontent">
+          <p>
+            <br />
+            Data Imbalance happens when the distribution of examples
+            across the known classes is biased or skewed.
+            The distribution can vary from a slight bias to a severe imbalance
+            where there is one example in the minority class for hundreds,
+            thousands, or millions of examples in the majority class or classes.
+            <br />
+            <br />
+            Class Imbalance happens when the affected attribute is a target variable <br />
+            Feature Imbalance happens when the affected attribute is an input variable
+          </p>
+        </div>
+      <h2>Preprocessing</h2>
+      <div className="subcontent">
+        <p>
+          <br />
+          One Hot encoding:
+          <br />
+          <br />
+          One-hot encoding converts strings into vectors of bits (0 or 1) and 1 appears once in each vector (thus “one-hot”)<br />
+          Check out this code sample: <br /><br />
+          <div class="compute">
+            <script type="text/x-sage">
+              WAITING FOR CODE
+            </script>
+          </div>
+        </p>
       </div>
+      <h2>Normalization</h2>
+      <div className="subcontent">
+        <p>
+          <br />
+          One Hot encoding:
+          <br />
+          <br />
+          Normalization is the process of organizing data in a database. 
+          This includes creating tables and establishing relationships between those tables 
+          according to rules designed both to protect the data and to make the database more flexible 
+          by eliminating redundancy and inconsistent dependency.<br />
+          Check out this code sample: <br /><br />
+          <div class="compute">
+            <script type="text/x-sage">
+              WAITING FOR CODE
+            </script>
+          </div>
+        </p>
+      </div>
+      </div>
+
+
+
+      
+
+      
+
     </div>
   );
 }
