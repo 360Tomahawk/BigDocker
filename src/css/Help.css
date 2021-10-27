@@ -16,9 +16,6 @@ a {
   text-decoration: none;
 }
 
-.content {
-}
-
 .block {
   height: 110px;
 }
@@ -27,11 +24,15 @@ li button {
   border: none;
   cursor: pointer;
   font-size: 100%;
-  background-color: white;
+  background-color: inherit;
+  color: inherit;
 }
-.content p {
-  padding: 10px;
-  font-size: 120%;
+
+.content u {
+  font-size: 100%;
+}
+.content a {
+  font-size: 100%;
 }
 
 .subcontent {
