@@ -33,3 +33,7 @@ __generated__
 .yarn-integrity
 backup.sql
 VERSION
+
+#ignoring compose, developers can continue with their own local changes.
+#new changes to compose will no longer show up
+docker-compose.yml
