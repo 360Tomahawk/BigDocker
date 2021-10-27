@@ -660,6 +660,9 @@ function Help() {
               then the model will be tested on for effectiveness.</li>
             <li>Repeat this until each of the k folds serves as the test set.</li>
             <li>The average accuracy of all the tests will serve as the performance result of the model.</li>
+            <br/>
+            <img src="https://cdn.discordapp.com/attachments/859690585346277376/902899461737562162/2021-10-21-052922.png" alt="Dataset seperated into 4 folds"/>
+            <br/>
           </span>
           <br/>
           <span>
