@@ -113,7 +113,7 @@ const SageCells = () => {
     }
     //scrolls to last, can comment out to disable the behaviour
     nodes[cellPos].scrollIntoView({ behavior: "smooth" });
-  }, [cellPos]);
+  }, [cellPos]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onUpload = () => {
     var input = document.createElement("input");
