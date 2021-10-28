@@ -24,7 +24,7 @@ function Help() {
   });
   return (
     <div className="page-content">
-      <h1>Table of contents</h1>
+      <h1>Table of contents</h1>    
       <div className="container">
         <ul>
           <li>
@@ -246,16 +246,17 @@ function Help() {
             Check out this code sample: <br /><br />
             <div className="compute">
               <script type="text/x-sage">
-                from sklearn.preprocessing import OneHotEncoder
-                encode = OneHotEncoder(handle_unknown='ignore')
+                from sklearn.preprocessing{"\n"}
+                import OneHotEncoder{"\n"}
+                encode = OneHotEncoder(handle_unknown='ignore'){"\n"}
                 X = [ ['Male', 1], 
                       ['Female', 3], 
-                      ['Female', 2]]
-                encode.fit(X)
-                print(encode.categories_)
-                print(encode.transform([['Female', 1], ['Male', 4]]).toarray())
-                print(encode.inverse_transform([[0, 1, 1, 0, 0], [0, 0, 0, 1, 0]]))
-                print(encode.get_feature_names_out(['gender', 'group']))
+                      ['Female', 2]]{"\n"}
+                encode.fit(X){"\n"}
+                print(encode.categories_){"\n"}
+                print(encode.transform([['Female', 1], ['Male', 4]]).toarray()){"\n"}
+                print(encode.inverse_transform([[0, 1, 1, 0, 0], [0, 0, 0, 1, 0]])){"\n"}
+                print(encode.get_feature_names_out(['gender', 'group'])){"\n"}
               </script>
             </div>
           </span>
@@ -272,9 +273,9 @@ function Help() {
               <script type="text/x-sage">
                 X = [ [ 1., -1.,  2.],
                       [ 2.,  0.,  0.],
-                      [ 0.,  1., -1.]]
-                X_normalized = preprocessing.normalize(X, norm='l2')
-                print(X_normalized)
+                      [ 0.,  1., -1.]]{"\n"}
+                X_normalized = preprocessing.normalize(X, norm='l2'){"\n"}
+                print(X_normalized){"\n"}
               </script>
             </div>
           </span>
@@ -287,17 +288,17 @@ function Help() {
             Check out this code sample: <br /><br />
             <div className="compute">
               <script type="text/x-sage">
-                from sklearn import preprocessing
-                import numpy as np
+                from sklearn import preprocessing{"\n"}
+                import numpy as np{"\n"}
                 X_train = np.array([[ 1., -1.,  2.],
                                     [ 2.,  0.,  0.],
-                                    [ 0.,  1., -1.]])
-                scaler = preprocessing.StandardScaler().fit(X_train)
-                print(scaler)
-                print(scaler.mean_)
-                print(scaler.scale_)
-                X_scaled = scaler.transform(X_train)
-                print(X_scaled)
+                                    [ 0.,  1., -1.]]){"\n"}
+                scaler = preprocessing.StandardScaler().fit(X_train){"\n"}
+                print(scaler){"\n"}
+                print(scaler.mean_){"\n"}
+                print(scaler.scale_){"\n"}
+                X_scaled = scaler.transform(X_train){"\n"}
+                print(X_scaled){"\n"}
               </script>
             </div>
           </span>
@@ -309,10 +310,10 @@ function Help() {
             Check out this code sample: <br /><br />
             <div className="compute">
               <script type="text/x-sage">
-                import pandas as pd
+                import pandas as pd{"\n"}
                 df = pd.DataFrame(np.array(([1, 2, 3], [4, 5, 6])),
                                   index=['mouse', 'rabbit'],
-                                  columns=['one', 'two', 'three'])
+                                  columns=['one', 'two', 'three']){"\n"}
               </script>
             </div>
           </span>
@@ -328,9 +329,9 @@ function Help() {
             A basic bar graph plot example code would be: <br /><br />
             <div className="compute">
               <script type="text/x-sage">
-                import pandas as pd
-                {/* df = pd.DataFrame({'lab':['A', 'B', 'C'], 'val':[10, 30, 20]}) */}
-                bargraph = df.plot.bar(x='lab', y='val', rot=0)
+                import pandas as pd{"\n"}
+                df = pd.DataFrame(&#123;'lab':['A', 'B', 'C'], 'val':[10, 30, 20]&#125;){"\n"}
+                bargraph = df.plot.bar(x='lab', y='val', rot=0){"\n"}
               </script>
             </div>
           </span>
@@ -341,10 +342,10 @@ function Help() {
             A basic pie chart plot example code would be : <br /><br />
             <div className="compute">
               <script type="text/x-sage">
-                {/* df = pd.DataFrame({ 'mass': [0.330, 4.87 , 5.97],
-                                    'radius': [2439.7, 6051.8, 6378.1]},
-                                    index=['Mercury', 'Venus', 'Earth']) */}
-                piechart = df.plot.pie(y='mass', figsize=(5, 5))
+                df = pd.DataFrame(&#123; 'mass': [0.330, 4.87 , 5.97],
+                                    'radius': [2439.7, 6051.8, 6378.1]&#125;,
+                                    index=['Mercury', 'Venus', 'Earth'])
+                piechart = df.plot.pie(y='mass', figsize=(5, 5)){"\n"}
               </script>
             </div>
           </span>
@@ -355,9 +356,9 @@ function Help() {
             A basic line plot example code would be: <br /><br />
             <div className="compute">
               <script type="text/x-sage">
-                import pandas as pd
-                linechart = pd.Series([1, 3, 2])
-                linechart.plot.line()
+                import pandas as pd{"\n"}
+                linechart = pd.Series([1, 3, 2]){"\n"}
+                linechart.plot.line(){"\n"}
               </script>
             </div>
           </span>
@@ -368,14 +369,14 @@ function Help() {
             A basic scatterplot example code would be: <br /><br />
             <div className="compute">
               <script type="text/x-sage">
-                import pandas as pd
+                import pandas as pd{"\n"}
                 df = pd.DataFrame([ [5.1, 3.5, 0], 
                                     [4.9, 3.0, 0], 
                                     [7.0, 3.2, 1], 
                                     [6.4, 3.2, 1], 
                                     [5.9, 3.0, 2]], 
-                                  columns=['length', 'width','species'])
-                scatterplot = df.plot.scatter(x = 'length',y = 'width',c = 'DarkBlue')
+                                  columns=['length', 'width','species']){"\n"}
+                scatterplot = df.plot.scatter(x = 'length',y = 'width',c = 'DarkBlue'){"\n"}
               </script>
             </div>
           </span>
@@ -386,14 +387,14 @@ function Help() {
             A basic Box and Whisker plot example code would be: <br /><br />
             <div className="compute">
               <script type="text/x-sage">
-                import pandas as pd
+                import pandas as pd{"\n"}
                 df = pd.DataFrame([ [55, 45, 30], 
                                     [80, 90, 70], 
                                     [53, 22, 10], 
                                     [99, 99, 99], 
                                     [70, 79, 69]], 
-                                  columns=['Test A', 'Test B','Test C'])
-                boxplot = df.boxplot(column=['Test A', 'Test B','Test C'])
+                                  columns=['Test A', 'Test B','Test C']){"\n"}
+                boxplot = df.boxplot(column=['Test A', 'Test B','Test C']){"\n"}
               </script>
             </div>
           </span>

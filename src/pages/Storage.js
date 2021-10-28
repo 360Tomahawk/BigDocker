@@ -32,11 +32,12 @@ const Storage = () => {
   };
 
   const getFileName = (link) => {
-    let res = link.split("wat2%2F");
-    let res2 = res[1].split("?alt=media");
+    let res = link.split("%2F");
+    let res2 = res[2].split("?alt=media");
     let replace = res2[0].replaceAll("%20", " ");
     return replace;
   };
+
   if (!ctx.isLoaded) {
     return (
       <div className="page-content">
