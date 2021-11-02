@@ -9,9 +9,9 @@ const Storage = () => {
   const ctx = useContext(AuthContext);
   const getDate = (date) => {
     if (date === null) {
-      return 0;
+      return "Loading . . .";
     } else {
-      return new Date(date * 1000).toString().substring(4, 21);
+      return new Date(date["seconds"] * 1000).toString().substring(4, 21);
     }
   };
 
@@ -73,7 +73,7 @@ const Storage = () => {
                     <td className="link " id={data.file}>
                       {getFileName(data.file)}
                     </td>
-                    <td>{getDate(data.dateAdded["seconds"])}</td>
+                    <td>{getDate(data.dateAdded)}</td>
                     <td>{data.fileSize} bytes</td>
                     <td className="tdLink">
                       <span className="tooltip">

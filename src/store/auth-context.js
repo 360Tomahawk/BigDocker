@@ -35,11 +35,13 @@ const AuthContext = React.createContext({
   userID: "",
   currentUser: [],
   userFiles: [],
+  uploading: "",
   onLogout: () => {},
   onLogin: (email, password) => {},
   onRegister: (email, password, name) => {},
   onSavePost: (file, key, fileSize) => {},
   onFileDelete: (id, file, fileName) => {},
+  setUploading: (bool) => {},
 });
 
 export const AuthContextProvider = (props) => {
@@ -49,6 +51,7 @@ export const AuthContextProvider = (props) => {
   const [loading, setLoading] = useState(false);
   const [currentUser, setCurrentUser] = useState([]);
   const [userFiles, setUserFiles] = useState([]);
+  const [uploading, setUploading] = useState(false);
   const history = useHistory();
 
   // runs only one time when web page is loaded
@@ -199,22 +202,24 @@ export const AuthContextProvider = (props) => {
             fileSize: fileSize,
           })
           .then(function () {
-            let confirm = window.confirm("Copy the file link to clipboard?");
-            if (confirm) {
-              console.log(file);
-              copyFile(file);
-              setTimeout(() => {
-                if (document.getElementById("link")) {
-                  document.getElementById("link").innerHTML = file;
-                }
-              }, 4000);
-            } else {
-              setTimeout(() => {
-                if (document.getElementById("link")) {
-                  document.getElementById("link").innerHTML = file;
-                }
-              }, 4000);
+            // let confirm = window.confirm("Copy the file link to clipboard?");
+            // if (confirm) {
+            //   console.log(file);
+            //   copyFile(file);
+            if (document.getElementById("link")) {
+              document.getElementById("result").value = "";
+              document.getElementById("result").innerHTML = "";
+              console.log("test", file);
+              document.getElementById("link").value = file;
+              setUploading(false);
             }
+            // } else {
+            //   setTimeout(() => {
+            //     if (document.getElementById("link")) {
+            //       document.getElementById("link").innerHTML = file;
+            //     }
+            //   }, 4000);
+            // }
           });
       } else {
         // if (document.getElementById("link")) {
@@ -225,8 +230,12 @@ export const AuthContextProvider = (props) => {
     });
   };
 
-  const copyFile = (file) => {
-    navigator.clipboard.writeText(file);
+  // const copyFile = (file) => {
+  //   navigator.clipboard.writeText(file);
+  // };
+
+  const setUploadingHandler = (bool) => {
+    setUploading(bool);
   };
   return (
     <AuthContext.Provider
@@ -237,11 +246,13 @@ export const AuthContextProvider = (props) => {
         loading: loading,
         currentUser: currentUser,
         userFiles: userFiles,
+        uploading: uploading,
         onLogout: logoutHandler,
         onLogin: loginHandler,
         onRegister: registerHandler,
         onSavePost: onSavePostHandler,
         onFileDelete: onDeleteFileHandler,
+        setUploading: setUploadingHandler,
       }}
     >
       {props.children}

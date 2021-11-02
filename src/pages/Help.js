@@ -246,8 +246,7 @@ function Help() {
             Check out this code sample: <br /><br />
             <div className="compute">
               <script type="text/x-sage">
-                from sklearn.preprocessing{"\n"}
-                import OneHotEncoder{"\n"}
+                from sklearn.preprocessing import OneHotEncoder{"\n"}
                 encode = OneHotEncoder(handle_unknown='ignore'){"\n"}
                 X = [ ['Male', 1], 
                       ['Female', 3], 
