@@ -86,3 +86,7 @@
 .input-link {
   width: 100%;
 }
+
+.rtg__backdrop {
+  z-index: 19;
+}

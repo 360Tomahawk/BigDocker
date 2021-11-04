@@ -46,8 +46,13 @@ export const SandboxGuide = ({ isOpen, setOpen }) => {
                 <p> 
                     For example, <br/>
                     import pandas as pd<br/>
-                    df = pd.read_csv('INSERT YOUR LINK HERE')
+                    df = pd.read_csv('INSERT YOUR LINK HERE')<br/>
+                    df.head()<br/>
                 </p>
+            </Step>
+            <Step selector=".cellsdropdown"placement="right">
+                <p>Need more cells? Add them here!</p>
+                <p>Want less cells? Remove them here!</p>
             </Step>
             <Step placement="center" closeOnBackdrop={true}>
                 <p>Have a great time!</p>

@@ -228,7 +228,7 @@ const SageCells = () => {
           </div>
         </div>
         <div className="dropdown">
-          <button className="dropbtn">Cells<FaCaretDown /></button>
+          <button className="dropbtn cellsdropdown">Cells<FaCaretDown /></button>
           <div className="dropdown-content">
             <button onClick={addCell}>Add new cell</button>
             <button onClick={removeCell}>Remove last cell</button>
