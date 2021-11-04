@@ -15,7 +15,8 @@ const SageCells = () => {
     document.getElementById("link").innerHTML = "";
   }
   if (document.getElementById("progress")) {
-    document.getElementById("progress").innerHTML = "";
+    document.getElementById("progress").innerHTML =
+      "Select a dataset from the drop down to upload";
   }
   //change this variable to change maximum cells
   const cellLimit = 100;
@@ -29,7 +30,7 @@ const SageCells = () => {
   //file upload stuff
   // const [update, setUpdate] = useState(false);
   const [files, setFiles] = useState([]);
-  const [newFileName, setNewFileName] = useState("");
+  // const [newFileName, setNewFileName] = useState("");
   const [fileSize, setfileSize] = useState("");
   let reader;
   const storage = firebase.storage();
@@ -61,7 +62,7 @@ const SageCells = () => {
   };
 
   const clearCell = (index) => {
-    if (cellInfos.array != null) {
+    if (cellInfos.array && cellInfos.array[index].editorData) {
       let nodes = document.getElementById("cellHolder").children;
       cellInfos.array[index].editorData.setValue("");
       cellInfos.array[index].editorData.clearHistory();
@@ -126,25 +127,34 @@ const SageCells = () => {
     input.onchange = (e) => {
       let temp = e.target.files;
       console.log(temp);
-      setNewFileName(temp[0].name);
+      // setNewFileName(temp[0].name);
+      nfn = temp[0].name;
       setfileSize(temp[0].size);
       setFiles(temp);
+      nf = temp;
       reader = new FileReader();
       reader.onload = function () {
         document.getElementById("result").src = reader.result;
         document.getElementById("result").value = temp[0].name;
         console.log(reader);
         ctx.setUploading(true);
+        ch = true;
         document.getElementById("link").value = "";
       };
       reader.readAsDataURL(temp[0]);
+      setTimeout(function () {
+        console.log("test");
+        onChangeFile();
+      }, 2000);
     };
     input.click();
   };
-
+  let nf = "";
+  let ch = false;
+  let nfn = "";
   const onChangeFile = async () => {
     console.log(ctx.uploading);
-    if (!ctx.uploading) {
+    if (!ch) {
       document.getElementById("progress").innerHTML =
         "Please select a dataset to upload first.";
       document.getElementById("result").focus();
@@ -152,10 +162,9 @@ const SageCells = () => {
       let task = "";
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
-          const childPath = `post/${
-            firebase.auth().currentUser.uid
-          }/${newFileName}`;
-          task = storage.ref().child(childPath).put(files[0]);
+          console.log(nfn);
+          const childPath = `post/${firebase.auth().currentUser.uid}/${nfn}`;
+          task = storage.ref().child(childPath).put(nf[0]);
           const taskProgress = (snapshot) => {
             if (document.getElementById("progress")) {
               document.getElementById("progress").innerHTML = `Transferred: ${
@@ -216,37 +225,78 @@ const SageCells = () => {
     return autoId;
   };
 
+  const verifyEmail = () => {
+    firebase
+      .auth()
+      .currentUser.sendEmailVerification()
+      .then(function () {
+        // Verification email sent.
+        alert("E-mail has been sent, please check your junk mail");
+      })
+      .catch(function (error) {
+        alert(
+          "An email has been sent, please check your junk mail or try again later"
+        );
+      });
+  };
   return (
     <div className="page-content">
       <SandboxGuide isOpen={isTourOpen} setOpen={setIsTourOpen} />
       <div className="editor-nav">
         <div className="dropdown">
-          <button className="dropbtn filedropdown">File<FaCaretDown /></button>
+          <button className="dropbtn filedropdown">
+            File
+            <FaCaretDown />
+          </button>
           <div className="dropdown-content">
-            <a href="http://localhost:3001"><button>Open notebook</button></a>
-            <button>Upload file</button>
+            <a href="http://localhost:3001">
+              <button>Open notebook</button>
+            </a>
+            {!ctx.authenticated ? (
+              <button>Upload file</button>
+            ) : (
+              <button onClick={onUpload}>Upload file</button>
+            )}
           </div>
         </div>
+
         <div className="dropdown">
-          <button className="dropbtn cellsdropdown">Cells<FaCaretDown /></button>
+          <button className="dropbtn cellsdropdown">
+            Cells
+            <FaCaretDown />
+          </button>
           <div className="dropdown-content">
             <button onClick={addCell}>Add new cell</button>
             <button onClick={removeCell}>Remove last cell</button>
           </div>
         </div>
         <div className="dropdown">
-          <button className="dropbtn" onClick={setIsTourOpen.bind(null, true)}>Help<IoIosHelpCircle /></button>
+          <button className="dropbtn" onClick={setIsTourOpen.bind(null, true)}>
+            Help
+            <IoIosHelpCircle />
+          </button>
         </div>
       </div>
       {!ctx.isLoggedIn ? (
         <div>You have to be authenticated in order to use Firebase Storage</div>
       ) : (
         <div>
-          <input placeholder="Upload Dataset" onClick={onUpload} id="result" />
-          <button onClick={onChangeFile}>Upload Dataset </button>
-          <span id="progress"></span>
-          <br></br>
-          <input disabled id="link" className={"input-link"} />
+          {!ctx.authenticated ? (
+            <div>
+              You have to verify your e-mail address first in order to upload
+              <button className="menuButton" onClick={verifyEmail}>
+                Verify
+              </button>
+            </div>
+          ) : (
+            <div>
+              <input id="result" disabled hidden />
+              {/* <button onClick={onChangeFile}>Upload Dataset </button> */}
+              <span id="progress"></span>
+              <br></br>
+              <input disabled id="link" className={"input-link"} />
+            </div>
+          )}
         </div>
       )}
       <br></br>

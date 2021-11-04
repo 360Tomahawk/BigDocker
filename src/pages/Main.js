@@ -5,10 +5,9 @@ import { FaReact, FaDocker, FaGithub } from "react-icons/fa";
 
 import { TourGuide } from "../components/TourSteps";
 
-
 const Main = () => {
   const [isTourOpen, setIsTourOpen] = useState(false);
-  
+
   return (
     <div className="page-content">
       <TourGuide isOpen={isTourOpen} setOpen={setIsTourOpen} />

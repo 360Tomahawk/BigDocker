@@ -32,6 +32,7 @@ function Navbar() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         setValid(true);
+        console.log("user verified?", user.emailVerified);
         const currentUserRef = firebase.firestore().collection("users");
         currentUserRef
           .doc(user.uid)
@@ -67,13 +68,15 @@ function Navbar() {
               </div>
             ) : (
               <div>
-                <FaUserCircle/> Welcome, {user.name}
-                <button className="menuButton" onClick={logout}>Logout</button>
+                <FaUserCircle /> Welcome, {user.name}
+                <button className="menuButton" onClick={logout}>
+                  Logout
+                </button>
               </div>
             )}
           </div>
           <div className="darkmodeStuff">
-            <IoMdMoon/>
+            <IoMdMoon />
             <ToggleSwitch
               id="darkmodetoggle"
               optionLabels={[]}

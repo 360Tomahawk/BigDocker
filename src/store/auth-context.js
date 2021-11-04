@@ -12,15 +12,22 @@ const firebaseConfig = {
   // messagingSenderId: "258512757467",
   // appId: "1:258512757467:web:18fd0326ed6097963a62fe",
 
-  apiKey: "AIzaSyDKQCkNcBA69C2G8ExWfyxz7UKGSp71YeQ",
-  authDomain: "test-app-aedea.firebaseapp.com",
-  databaseURL:
-    "https://test-app-aedea-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "test-app-aedea",
-  storageBucket: "test-app-aedea.appspot.com",
-  messagingSenderId: "714129659570",
-  appId: "1:714129659570:web:838d2cb8d64b11b8ab1bab",
-  measurementId: "G-ZFDQVT7QXN",
+  // apiKey: "AIzaSyDKQCkNcBA69C2G8ExWfyxz7UKGSp71YeQ",
+  // authDomain: "test-app-aedea.firebaseapp.com",
+  // databaseURL:
+  //   "https://test-app-aedea-default-rtdb.asia-southeast1.firebasedatabase.app",
+  // projectId: "test-app-aedea",
+  // storageBucket: "test-app-aedea.appspot.com",
+  // messagingSenderId: "714129659570",
+  // appId: "1:714129659570:web:838d2cb8d64b11b8ab1bab",
+  // measurementId: "G-ZFDQVT7QXN",
+
+  apiKey: "AIzaSyBuRKMSP4fTYZd-Ct50HAbQFWU3e3Uc-zY",
+  authDomain: "bigdocker.firebaseapp.com",
+  projectId: "bigdocker",
+  storageBucket: "bigdocker.appspot.com",
+  messagingSenderId: "289529382507",
+  appId: "1:289529382507:web:8f35dd41f2ce3ac385132e",
 };
 if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig);
@@ -36,6 +43,7 @@ const AuthContext = React.createContext({
   currentUser: [],
   userFiles: [],
   uploading: "",
+  authenticated: "",
   onLogout: () => {},
   onLogin: (email, password) => {},
   onRegister: (email, password, name) => {},
@@ -52,6 +60,7 @@ export const AuthContextProvider = (props) => {
   const [currentUser, setCurrentUser] = useState([]);
   const [userFiles, setUserFiles] = useState([]);
   const [uploading, setUploading] = useState(false);
+  const [authenticated, setAuthenticated] = useState(false);
   const history = useHistory();
 
   // runs only one time when web page is loaded
@@ -72,7 +81,7 @@ export const AuthContextProvider = (props) => {
               setCurrentUser(userObject.data());
               setIsLoggedIn(true);
               setIsLoaded(true);
-
+              setAuthenticated(user.emailVerified);
               // get all files uploaded by current user (data is retrieve on real time)
               firebase
                 .firestore()
@@ -247,6 +256,7 @@ export const AuthContextProvider = (props) => {
         currentUser: currentUser,
         userFiles: userFiles,
         uploading: uploading,
+        authenticated: authenticated,
         onLogout: logoutHandler,
         onLogin: loginHandler,
         onRegister: registerHandler,

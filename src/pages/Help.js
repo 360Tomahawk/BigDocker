@@ -270,6 +270,7 @@ function Help() {
             Check out this code sample: <br /><br />
             <div className="compute">
               <script type="text/x-sage">
+              from sklearn import preprocessing{"\n"}
                 X = [ [ 1., -1.,  2.],
                       [ 2.,  0.,  0.],
                       [ 0.,  1., -1.]]{"\n"}
@@ -310,9 +311,11 @@ function Help() {
             <div className="compute">
               <script type="text/x-sage">
                 import pandas as pd{"\n"}
+                import numpy as np{"\n"}
                 df = pd.DataFrame(np.array(([1, 2, 3], [4, 5, 6])),
                                   index=['mouse', 'rabbit'],
                                   columns=['one', 'two', 'three']){"\n"}
+                df.head()
               </script>
             </div>
           </span>
