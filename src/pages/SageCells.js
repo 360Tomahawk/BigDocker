@@ -4,6 +4,8 @@ import React, { useState, useEffect, useContext } from "react";
 import firebase from "firebase";
 import { FaCaretDown } from "react-icons/fa";
 import { ImArrowUp } from "react-icons/im";
+import { IoIosHelpCircle } from "react-icons/io";
+import { SandboxGuide } from "../components/TourSteps";
 
 import AuthContext from "../store/auth-context";
 const SageCells = () => {
@@ -31,6 +33,9 @@ const SageCells = () => {
   const [fileSize, setfileSize] = useState("");
   let reader;
   const storage = firebase.storage();
+
+  //TOUR GUIDE
+  const [isTourOpen, setIsTourOpen] = useState(false);
 
   const addCell = () => {
     if (cellPos < cellLimit - 1) {
@@ -213,28 +218,24 @@ const SageCells = () => {
 
   return (
     <div className="page-content">
+      <SandboxGuide isOpen={isTourOpen} setOpen={setIsTourOpen} />
       <div className="editor-nav">
         <div className="dropdown">
-          <button className="dropbtn">
-            File
-            <FaCaretDown />
-          </button>
+          <button className="dropbtn filedropdown">File<FaCaretDown /></button>
           <div className="dropdown-content">
-            <a href="http://localhost:3001">
-              <button>Open notebook</button>
-            </a>
+            <a href="http://localhost:3001"><button>Open notebook</button></a>
             <button>Upload file</button>
           </div>
         </div>
         <div className="dropdown">
-          <button className="dropbtn">
-            Cells
-            <FaCaretDown />
-          </button>
+          <button className="dropbtn">Cells<FaCaretDown /></button>
           <div className="dropdown-content">
             <button onClick={addCell}>Add new cell</button>
             <button onClick={removeCell}>Remove last cell</button>
           </div>
+        </div>
+        <div className="dropdown">
+          <button className="dropbtn" onClick={setIsTourOpen.bind(null, true)}>Help<IoIosHelpCircle /></button>
         </div>
       </div>
       {!ctx.isLoggedIn ? (

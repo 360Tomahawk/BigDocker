@@ -27,3 +27,31 @@ export const TourGuide = ({ isOpen, setOpen }) => {
         </Tour>
     )
 };
+
+export const SandboxGuide = ({ isOpen, setOpen }) => {
+    return (
+        <Tour isOpen={isOpen}
+            onClose={setOpen.bind(null, false)}
+            onOpen={setOpen.bind(null, true)}>
+            <Step selector=".filedropdown"placement="right">
+                <p>You can upload your files here</p>
+            </Step>
+            <Step placement="center">
+                <p>Once you've uploaded a file, you should get a URL pointing to your file</p>
+            </Step>
+            <Step selector=".input-link"placement="bottom">
+                <p>Copy this link, you can use this link in the sandbox to reference your files!</p>
+            </Step>
+            <Step selector="center" placement="center">
+                <p> 
+                    For example, <br/>
+                    import pandas as pd<br/>
+                    df = pd.read_csv('INSERT YOUR LINK HERE')
+                </p>
+            </Step>
+            <Step placement="center" closeOnBackdrop={true}>
+                <p>Have a great time!</p>
+            </Step>
+        </Tour>
+    )
+};

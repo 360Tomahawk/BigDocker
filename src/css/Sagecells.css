@@ -16,6 +16,7 @@
 
 /* Dropdown button */
 .dropdown .dropbtn {
+  display: flex;
   font-size: 16px;
   border: none;
   outline: none;
