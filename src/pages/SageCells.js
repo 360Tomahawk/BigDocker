@@ -222,8 +222,7 @@ const SageCells = () => {
             <a href="http://localhost:3001">
               <button>Open notebook</button>
             </a>
-            <button>Export notebook</button>
-            <button>Run all</button>
+            <button>Upload file</button>
           </div>
         </div>
         <div className="dropdown">
