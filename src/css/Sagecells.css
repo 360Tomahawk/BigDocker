@@ -1,5 +1,4 @@
 .cellContainer {
-
 }
 
 /* Navbar container */
@@ -30,12 +29,13 @@
   display: none;
   position: absolute;
   background-color: #f9f9f9;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 5;
 }
 
 /* Add a red background color to navbar links on hover */
-.navbar div:hover, .dropdown:hover .dropbtn {
+.navbar div:hover,
+.dropdown:hover .dropbtn {
   background-color: #4697ce;
 }
 
@@ -48,7 +48,6 @@
 .dropdown-content button:hover {
   background-color: #ddd;
 }
-
 
 /* Buttons inside the dropdown */
 .dropdown-content button {
@@ -81,4 +80,8 @@
 
 .sagecell_poweredBy {
   display: none;
+}
+
+.input-link {
+  width: 100%;
 }

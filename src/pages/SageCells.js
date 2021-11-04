@@ -26,7 +26,6 @@ const SageCells = () => {
 
   //file upload stuff
   // const [update, setUpdate] = useState(false);
-  const [uploading, setUploading] = useState(false);
   const [files, setFiles] = useState([]);
   const [newFileName, setNewFileName] = useState("");
   const [fileSize, setfileSize] = useState("");
@@ -130,15 +129,17 @@ const SageCells = () => {
         document.getElementById("result").src = reader.result;
         document.getElementById("result").value = temp[0].name;
         console.log(reader);
+        ctx.setUploading(true);
+        document.getElementById("link").value = "";
       };
       reader.readAsDataURL(temp[0]);
     };
     input.click();
-    setUploading(true);
   };
 
   const onChangeFile = async () => {
-    if (!uploading) {
+    console.log(ctx.uploading);
+    if (!ctx.uploading) {
       document.getElementById("progress").innerHTML =
         "Please select a dataset to upload first.";
       document.getElementById("result").focus();
@@ -244,7 +245,7 @@ const SageCells = () => {
           <button onClick={onChangeFile}>Upload Dataset </button>
           <span id="progress"></span>
           <br></br>
-          <span id="link"></span>
+          <input disabled id="link" className={"input-link"} />
         </div>
       )}
       <br></br>
