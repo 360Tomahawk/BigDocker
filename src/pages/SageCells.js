@@ -152,6 +152,9 @@ const SageCells = () => {
   let nf = "";
   let ch = false;
   let nfn = "";
+  const float2int = (value) => {
+    return value | 0;
+  };
   const onChangeFile = async () => {
     console.log(ctx.uploading);
     if (!ch) {
@@ -167,9 +170,11 @@ const SageCells = () => {
           task = storage.ref().child(childPath).put(nf[0]);
           const taskProgress = (snapshot) => {
             if (document.getElementById("progress")) {
-              document.getElementById("progress").innerHTML = `Transferred: ${
+              document.getElementById(
+                "progress"
+              ).innerHTML = `Uploading: ${float2int(
                 (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-              }%`;
+              )}%`;
               // console.log(`transferred: ${snapshot.bytesTransferred}`);
             }
           };
