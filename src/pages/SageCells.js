@@ -74,6 +74,7 @@ const SageCells = () => {
   };
 
   const loadCells = () => {
+    console.log("Loading cells");
     for (let i = 0; i < cellLimit; i++) {
       let div = document.createElement("div");
       div.setAttribute("class", "compute");
@@ -81,34 +82,23 @@ const SageCells = () => {
       document.getElementById("cellHolder").appendChild(div);
     }
 
-    if (window.sagecell) {
+    (async() => {
+      while(!window.hasOwnProperty("sagecell")) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+      }
       setCellInfos(
         window.sagecell.makeSagecell({
           inputLocation: "div.compute",
           evalButtonText: "Evaluate this cell",
           linked: true,
           hide: ["fullScreen"], //hides the fullscreen button at the side
-        })
-      );
-    }
+        }));
+      console.log("Loaded sagecell");
+    })();
   };
 
-  const jumpToTop = () => {
-    document.documentElement.scrollIntoView({ behavior: "smooth" });
-  };
-
-  // consider this a init function
-
-  useEffect(() => {
-    window.addEventListener("scroll", () => {
-      //arbitary value for now
-      setShowScroll(window.scrollY > 100);
-    });
-    loadCells();
-  }, []); //this is empty so no dependancy
-
-  //this is called whenever cellPos is updated
-  useEffect(() => {
+  const updateCells = () => {
+    console.log("updating cells");
     let nodes = document.getElementById("cellHolder").children;
     //technically slow implementation luckily its not heavy
     if (nodes) {
@@ -123,6 +113,25 @@ const SageCells = () => {
       //scrolls to last, can comment out to disable the behaviour
       nodes[cellPos].scrollIntoView({ behavior: "smooth" });
     }
+  }
+
+  const jumpToTop = () => {
+    document.documentElement.scrollIntoView({ behavior: "smooth" });
+  };
+
+  // consider this a init function
+
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      //arbitary value for now
+      setShowScroll(window.scrollY > 100);
+    });
+    loadCells();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  //this is called whenever cellPos is updated
+  useEffect(() => {
+    updateCells();
   }, [cellPos]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onUpload = () => {
