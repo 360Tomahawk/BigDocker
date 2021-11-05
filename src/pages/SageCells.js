@@ -81,14 +81,16 @@ const SageCells = () => {
       document.getElementById("cellHolder").appendChild(div);
     }
 
-    setCellInfos(
-      window.sagecell.makeSagecell({
-        inputLocation: "div.compute",
-        evalButtonText: "Evaluate this cell",
-        linked: true,
-        hide: ["fullScreen"], //hides the fullscreen button at the side
-      })
-    );
+    if (window.sagecell) {
+      setCellInfos(
+        window.sagecell.makeSagecell({
+          inputLocation: "div.compute",
+          evalButtonText: "Evaluate this cell",
+          linked: true,
+          hide: ["fullScreen"], //hides the fullscreen button at the side
+        })
+      );
+    }
   };
 
   const jumpToTop = () => {
@@ -96,28 +98,31 @@ const SageCells = () => {
   };
 
   // consider this a init function
+
   useEffect(() => {
-    loadCells();
     window.addEventListener("scroll", () => {
       //arbitary value for now
       setShowScroll(window.scrollY > 100);
     });
+    loadCells();
   }, []); //this is empty so no dependancy
 
   //this is called whenever cellPos is updated
   useEffect(() => {
     let nodes = document.getElementById("cellHolder").children;
     //technically slow implementation luckily its not heavy
-    for (let i = 0; i < cellLimit; i++) {
-      if (i < cellPos) {
-        nodes[i].style.display = "block";
-      } else {
-        nodes[i].style.display = "none";
-        clearCell(i);
+    if (nodes) {
+      for (let i = 0; i < cellLimit; i++) {
+        if (i < cellPos) {
+          nodes[i].style.display = "block";
+        } else {
+          nodes[i].style.display = "none";
+          clearCell(i);
+        }
       }
+      //scrolls to last, can comment out to disable the behaviour
+      nodes[cellPos].scrollIntoView({ behavior: "smooth" });
     }
-    //scrolls to last, can comment out to disable the behaviour
-    nodes[cellPos].scrollIntoView({ behavior: "smooth" });
   }, [cellPos]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onUpload = () => {
