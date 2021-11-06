@@ -16,13 +16,17 @@ function Help() {
   };
 
   useEffect(() => {
-    if (window.sagecell) {
+    (async() => {
+      while(!window.hasOwnProperty("sagecell")) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+      }
       window.sagecell.makeSagecell({
         inputLocation: "div.compute",
         evalButtonText: "Evaluate",
-        hide: ["fullScreen"],
+        hide: ["fullScreen"]
       });
-    }
+      console.log("Loaded sagecell");
+    })();
   });
   return (
     <div className="page-content">
