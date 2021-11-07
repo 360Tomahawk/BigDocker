@@ -930,7 +930,14 @@ function Help() {
           </span>
         </div>
       </div>
-      <h1>END OF CONTENT</h1>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
     </div>
   );
 }
