@@ -6,7 +6,7 @@ We plan to focus on data source, data storage and batch processing as we feel th
 
 Usage Instructions: 
 ```
-1) Install [Docker](https://www.docker.com/)
+1) Install Docker at https://www.docker.com/
 2) Download our Docker-compose file with any utility, and place it in a folder of your choice
 3) Launch a new terminal and navigate to that folder
 4) Run docker compose up, this will take a while... (don't close the terminal!)
