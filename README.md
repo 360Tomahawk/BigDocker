@@ -14,3 +14,5 @@ Usage Instructions:
 6) When done, issue the CTRL-C command in that same terminal you opened in step 3
 7) repeat steps 3-7 for future use!
 ```
+Product video:
+[![Video](https://i.imgur.com/zKECHwm.png)](https://youtu.be/7opgy9BYt4Y)
