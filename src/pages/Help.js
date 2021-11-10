@@ -402,12 +402,13 @@ function Help() {
             <br />
             <div className="compute">
               <script type="text/x-sage">
-                import pandas as pd{"\n"}
-                import numpy as np{"\n"}
-                df = pd.DataFrame(np.array(([1, 2, 3], [4, 5, 6])),
-                index=['mouse', 'rabbit'], columns=['one', 'two', 'three'])
-                {"\n"}
-                df.head()
+              import numpy as np{"\n"}
+              import pandas as pd{"\n"}
+              df = pd.DataFrame(np.array(([1, 2, 3], [4, 5, 6],[33,321,31],[7, 4, 3],[1, 2, 4])), columns=['GROUP A', 'GROUP B', 'GROUP C']) {"\n"}
+              print(df) {"\n"}
+              # The 3rd row data is a outlier so the row will be removed {"\n"}
+              df = df.drop([2] ,axis=0) {"\n"}
+              print(df) {"\n"}
               </script>
             </div>
           </span>
@@ -424,10 +425,25 @@ function Help() {
             <br />
             <div className="compute">
               <script type="text/x-sage">
-                import pandas as pd{"\n"}
-                df = pd.DataFrame(&#123;'lab':['A', 'B', 'C'], 'val':[10, 30,
-                20]&#125;){"\n"}
-                bargraph = df.plot.bar(x='lab', y='val', rot=0){"\n"}
+                import numpy as np{"\n"}
+                import matplotlib.pyplot as plt{"\n"}
+                {"\n"}
+                # creating the dataset{"\n"}
+                data = &#123;'C':20, 'C++':15, 'Java':30,
+                        'Python':35 &#125;{"\n"}
+                courses = list(data.keys()){"\n"}
+                values = list(data.values()){"\n"}
+                {"\n"}
+                fig = plt.figure(figsize = (10, 5)){"\n"}
+                {"\n"}
+                # creating the bar plot{"\n"}
+                plt.bar(courses, values, color ='maroon',
+                        width = 0.4){"\n"}
+                {"\n"}
+                plt.xlabel("Courses offered"){"\n"}
+                plt.ylabel("No. of students enrolled"){"\n"}
+                plt.title("Students enrolled in different courses"){"\n"}
+                plt.show(){"\n"}
               </script>
             </div>
           </span>
@@ -439,9 +455,13 @@ function Help() {
             <br />
             <div className="compute">
               <script type="text/x-sage">
-                df = pd.DataFrame(&#123; 'mass': [0.330, 4.87 , 5.97], 'radius':
-                [2439.7, 6051.8, 6378.1]&#125;, index=['Mercury', 'Venus',
-                'Earth']) piechart = df.plot.pie(y='mass', figsize=(5, 5)){"\n"}
+                import matplotlib.pyplot as plt{"\n"}
+                import numpy as np{"\n"}
+                {"\n"}
+                y = np.array([35, 25, 25, 15]){"\n"}
+                {"\n"}
+                plt.pie(y){"\n"}
+                plt.show(){"\n"}
               </script>
             </div>
           </span>
@@ -453,9 +473,16 @@ function Help() {
             <br />
             <div className="compute">
               <script type="text/x-sage">
-                import pandas as pd{"\n"}
-                linechart = pd.Series([1, 3, 2]){"\n"}
-                linechart.plot.line(){"\n"}
+                import matplotlib.pyplot as plt{"\n"}
+                {"\n"}
+                Year = [1920,1930,1940,1950,1960,1970,1980,1990,2000,2010]{"\n"}
+                Unemployment_Rate = [9.8,12,8,7.2,6.9,7,6.5,6.2,5.5,6.3]{"\n"}
+                {"\n"}
+                plt.plot(Year, Unemployment_Rate){"\n"}
+                plt.title('Unemployment Rate Vs Year'){"\n"}
+                plt.xlabel('Year'){"\n"}
+                plt.ylabel('Unemployment Rate'){"\n"}
+                plt.show(){"\n"}
               </script>
             </div>
           </span>
@@ -467,12 +494,20 @@ function Help() {
             <br />
             <div className="compute">
               <script type="text/x-sage">
-                import pandas as pd{"\n"}
-                df = pd.DataFrame([ [5.1, 3.5, 0], [4.9, 3.0, 0], [7.0, 3.2, 1],
-                [6.4, 3.2, 1], [5.9, 3.0, 2]], columns=['length',
-                'width','species']){"\n"}
-                scatterplot = df.plot.scatter(x = 'length',y = 'width',c =
-                'DarkBlue'){"\n"}
+                import numpy as np{"\n"}
+                import matplotlib.pyplot as plt{"\n"}
+                {"\n"}
+                # Fixing random state for reproducibility{"\n"}
+                np.random.seed(19680801){"\n"}
+                {"\n"}
+                N = 50{"\n"}
+                x = np.random.rand(N){"\n"}
+                y = np.random.rand(N){"\n"}
+                colors = np.random.rand(N){"\n"}
+                area = (30 * np.random.rand(N))**2  # 0 to 15 point radii{"\n"}
+                {"\n"}
+                plt.scatter(x, y, s=area, c=colors, alpha=0.5){"\n"}
+                plt.show(){"\n"}
               </script>
             </div>
           </span>
@@ -484,11 +519,21 @@ function Help() {
             <br />
             <div className="compute">
               <script type="text/x-sage">
-                import pandas as pd{"\n"}
-                df = pd.DataFrame([ [55, 45, 30], [80, 90, 70], [53, 22, 10],
-                [99, 99, 99], [70, 79, 69]], columns=['Test A', 'Test B','Test
-                C']){"\n"}
-                boxplot = df.boxplot(column=['Test A', 'Test B','Test C']){"\n"}
+                # Import libraries{"\n"}
+                import matplotlib.pyplot as plt{"\n"}
+                import numpy as np{"\n"}
+                {"\n"}
+                # Creating dataset{"\n"}
+                np.random.seed(10){"\n"}
+                data = np.random.normal(100, 20, 200){"\n"}
+                {"\n"}
+                fig = plt.figure(figsize =(10, 7)){"\n"}
+                {"\n"}
+                # Creating plot{"\n"}
+                plt.boxplot(data){"\n"}
+                {"\n"}
+                # show plot{"\n"}
+                plt.show(){"\n"}
               </script>
             </div>
           </span>
