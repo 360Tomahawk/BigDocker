@@ -31,12 +31,13 @@ const SageCells = () => {
   // const [update, setUpdate] = useState(false);
   const [files, setFiles] = useState([]);
   // const [newFileName, setNewFileName] = useState("");
-  const [fileSize, setfileSize] = useState("");
+  // const [fileSize, setfileSize] = useState("");
   let reader;
   const storage = firebase.storage();
 
   //TOUR GUIDE
   const [isTourOpen, setIsTourOpen] = useState(false);
+  const [auth, setAuth] = useState(false);
 
   const addCell = () => {
     if (cellPos < cellLimit - 1) {
@@ -135,6 +136,17 @@ const SageCells = () => {
     updateCells();
   }, [cellPos]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        ctx.user.forEach((doc) => {
+          if (doc.id === user.uid) {
+            console.log(doc.id);
+          }
+        });
+      }
+    });
+  }, [ctx.user]);
   const onUpload = () => {
     var input = document.createElement("input");
     input.type = "file";
@@ -144,7 +156,7 @@ const SageCells = () => {
       console.log(temp);
       // setNewFileName(temp[0].name);
       nfn = temp[0].name;
-      setfileSize(temp[0].size);
+      // setfileSize(temp[0].size);
       fs = temp[0].size;
       setFiles(temp);
       nf = temp;
@@ -260,7 +272,23 @@ const SageCells = () => {
           "An email has been sent, please check your junk mail or try again later"
         );
       });
+
+    let interval = setInterval(function () {
+      firebase
+        .auth()
+        .currentUser.reload()
+        .then((ok) => {
+          if (firebase.auth().currentUser.emailVerified) {
+            setAuth(true);
+            clearInterval(interval);
+            ctx.setAuthenticated(true);
+            document.getElementById("progress").innerHTML =
+              "Select a dataset from the drop down to upload";
+          }
+        });
+    }, 2000);
   };
+
   return (
     <div className="page-content">
       <SandboxGuide isOpen={isTourOpen} setOpen={setIsTourOpen} />
@@ -303,7 +331,7 @@ const SageCells = () => {
         <div>You have to be authenticated in order to use Firebase Storage</div>
       ) : (
         <div>
-          {!ctx.authenticated ? (
+          {!ctx.authenticated && !auth ? (
             <div>
               You have to verify your e-mail address first in order to upload
               <button className="menuButton" onClick={verifyEmail}>

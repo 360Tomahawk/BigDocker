@@ -44,12 +44,14 @@ const AuthContext = React.createContext({
   userFiles: [],
   uploading: "",
   authenticated: "",
+  user: [],
   onLogout: () => {},
   onLogin: (email, password) => {},
   onRegister: (email, password, name) => {},
   onSavePost: (file, key, fileSize) => {},
   onFileDelete: (id, file, fileName) => {},
   setUploading: (bool) => {},
+  setAuthenticated: (bool) => {},
 });
 
 export const AuthContextProvider = (props) => {
@@ -61,6 +63,7 @@ export const AuthContextProvider = (props) => {
   const [userFiles, setUserFiles] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
+  const [user, setUser] = useState([]);
   const history = useHistory();
 
   // runs only one time when web page is loaded
@@ -94,6 +97,17 @@ export const AuthContextProvider = (props) => {
                     prodArr.push(data.data());
                   });
                   setUserFiles(prodArr);
+                });
+
+              firebase
+                .firestore()
+                .collection("users")
+                .onSnapshot((querySnapshot) => {
+                  let userArr = [];
+                  querySnapshot.forEach((data) => {
+                    userArr.push(data.data());
+                  });
+                  setUser(userArr);
                 });
             }
           });
@@ -146,6 +160,7 @@ export const AuthContextProvider = (props) => {
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then((result) => {
+        console.log(result.user.uid);
         firebase
           .firestore()
           .collection("users")
@@ -153,6 +168,7 @@ export const AuthContextProvider = (props) => {
           .set({
             email: email,
             name: name,
+            uid: result.user.uid,
           })
           .then(function () {
             setErrorMessage("");
@@ -257,12 +273,14 @@ export const AuthContextProvider = (props) => {
         userFiles: userFiles,
         uploading: uploading,
         authenticated: authenticated,
+        user: user,
         onLogout: logoutHandler,
         onLogin: loginHandler,
         onRegister: registerHandler,
         onSavePost: onSavePostHandler,
         onFileDelete: onDeleteFileHandler,
         setUploading: setUploadingHandler,
+        setAuthenticated: setAuthenticated,
       }}
     >
       {props.children}
