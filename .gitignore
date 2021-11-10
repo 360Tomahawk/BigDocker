@@ -40,3 +40,4 @@ docker-compose.yml
 #ignoring package.json, developers can continue with their own local changes.
 #new changes to package will no longer show up BE VERY CAREFUL
 package.json
+package.json
