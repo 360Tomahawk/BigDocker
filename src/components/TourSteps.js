@@ -39,7 +39,7 @@ export const SandboxGuide = ({ isOpen, setOpen }) => {
             <Step placement="center">
                 <p>Once you've uploaded a file, you should get a URL pointing to your file</p>
             </Step>
-            <Step selector=".input-link"placement="bottom">
+            <Step placement="center">
                 <p>Copy this link, you can use this link in the sandbox to reference your files!</p>
             </Step>
             <Step selector="center" placement="center">
