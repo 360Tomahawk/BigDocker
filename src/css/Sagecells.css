@@ -90,3 +90,7 @@
 .rtg__backdrop {
   z-index: 19;
 }
+
+.rtg__step {
+  color:black;
+}

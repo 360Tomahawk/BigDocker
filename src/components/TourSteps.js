@@ -7,22 +7,22 @@ export const TourGuide = ({ isOpen, setOpen }) => {
             onClose={setOpen.bind(null, false)}
             onOpen={setOpen.bind(null, true)}>
             <Step placement="center">
-                <p>Welcome to BigDocker!</p>
+                Welcome to BigDocker!
             </Step>
             <Step selector=".darkmodeStuff" placement="bottom-left">
-                <p>Here you can toggle dark mode</p>
+                Here you can toggle dark mode
             </Step>
             <Step selector=".loginButton" placement="right">
-                <p>We recommend logging in for the best user experience</p>
+                We recommend logging in for the best user experience
             </Step>
             <Step selector=".btnHelp" placement="right">
-                <p>Need help with coding? Click here!</p>
+                Need help with coding? Click here!
             </Step>
             <Step selector=".btnSandbox" placement="right">
-                <p>Ready to start coding? Click here!</p>
+                Ready to start coding? Click here!
             </Step>
             <Step placement="center" closeOnBackdrop={true}>
-                <p>Have a great time!</p>
+                Have a great time!
             </Step>
         </Tour>
     )
@@ -34,28 +34,26 @@ export const SandboxGuide = ({ isOpen, setOpen }) => {
             onClose={setOpen.bind(null, false)}
             onOpen={setOpen.bind(null, true)}>
             <Step selector=".filedropdown"placement="right">
-                <p>You can upload your files here</p>
+                You can upload your files here
             </Step>
             <Step placement="center">
-                <p>Once you've uploaded a file, you should get a URL pointing to your file</p>
+                Once you've uploaded a file, you should get a URL pointing to your file
             </Step>
             <Step placement="center">
-                <p>Copy this link, you can use this link in the sandbox to reference your files!</p>
+                Copy this link, you can use this link in the sandbox to reference your files!
             </Step>
             <Step selector="center" placement="center">
-                <p> 
                     For example, <br/>
                     import pandas as pd<br/>
                     df = pd.read_csv('INSERT YOUR LINK HERE')<br/>
                     df.head()<br/>
-                </p>
             </Step>
             <Step selector=".cellsdropdown"placement="right">
-                <p>Need more cells? Add them here!</p>
-                <p>Want less cells? Remove them here!</p>
+                Need more cells? Add them here!<br/>
+                Want less cells? Remove them here!
             </Step>
             <Step placement="center" closeOnBackdrop={true}>
-                <p>Have a great time!</p>
+                Have a great time!
             </Step>
         </Tour>
     )

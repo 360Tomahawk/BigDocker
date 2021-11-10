@@ -23,3 +23,7 @@
 .rtg__modal {
     z-index: 20;
 }
+
+.rtg__step {
+    color:black;
+}
