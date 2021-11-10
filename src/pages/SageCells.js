@@ -82,9 +82,9 @@ const SageCells = () => {
       document.getElementById("cellHolder").appendChild(div);
     }
 
-    (async() => {
-      while(!window.hasOwnProperty("sagecell")) {
-        await new Promise(resolve => setTimeout(resolve, 100));
+    (async () => {
+      while (!window.hasOwnProperty("sagecell")) {
+        await new Promise((resolve) => setTimeout(resolve, 100));
       }
       setCellInfos(
         window.sagecell.makeSagecell({
@@ -92,7 +92,8 @@ const SageCells = () => {
           evalButtonText: "Evaluate this cell",
           linked: true,
           hide: ["fullScreen"], //hides the fullscreen button at the side
-        }));
+        })
+      );
       console.log("Loaded sagecell");
     })();
   };
@@ -113,7 +114,7 @@ const SageCells = () => {
       //scrolls to last, can comment out to disable the behaviour
       nodes[cellPos].scrollIntoView({ behavior: "smooth" });
     }
-  }
+  };
 
   const jumpToTop = () => {
     document.documentElement.scrollIntoView({ behavior: "smooth" });
@@ -144,6 +145,7 @@ const SageCells = () => {
       // setNewFileName(temp[0].name);
       nfn = temp[0].name;
       setfileSize(temp[0].size);
+      fs = temp[0].size;
       setFiles(temp);
       nf = temp;
       reader = new FileReader();
@@ -166,6 +168,7 @@ const SageCells = () => {
   let nf = "";
   let ch = false;
   let nfn = "";
+  let fs = "";
   const float2int = (value) => {
     return value | 0;
   };
@@ -231,7 +234,7 @@ const SageCells = () => {
 
   const savePostData = (file) => {
     let key = generateKey();
-    ctx.onSavePost(file, key, fileSize);
+    ctx.onSavePost(file, key, fs);
   };
 
   const generateKey = () => {
