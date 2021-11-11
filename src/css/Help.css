@@ -45,3 +45,7 @@ li button {
   position: relative;
   left: 70px;
 }
+
+.sagecell_permalink {
+  display: none;
+}

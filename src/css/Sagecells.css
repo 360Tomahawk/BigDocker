@@ -92,5 +92,8 @@
 }
 
 .rtg__step {
-  color:black;
+  color: black;
+}
+.sagecell_permalink {
+  display: none;
 }
