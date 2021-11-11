@@ -6,13 +6,16 @@ We plan to focus on data source, data storage and batch processing as we feel th
 
 Usage Instructions: 
 ```
-1) Install Docker at https://www.docker.com/
-2) Download our Docker-compose file with any utility, and place it in a folder of your choice
-3) Launch a new terminal and navigate to that folder
-4) Run docker compose up, this will take a while... (don't close the terminal!)
-5) Go to localhost:3000 in your browser
-6) When done, issue the CTRL-C command in that same terminal you opened in step 3
-7) repeat steps 3-7 for future use!
+1) Install Docker at https://www.docker.com/, we recommend Docker Desktop.
+2) Get our Docker-Compose YAML file at https://firebasestorage.googleapis.com/v0/b/bigdocker.appspot.com/o/docker-compose.yml?alt=media&token=6b90756c-e7ea-48ff-8406-5cd8fa2d1dc4, or get it from this repository
+3) Move this YAML file to a folder of your choice.
+4) Launch a new terminal and navigate to that folder.
+5) Run docker compose up 
+6) When the terminal instance no-longer updates with new information, the application is ready to be used. Do not kill the terminal instance.
+7) Launch the application by going to http://localhost:3000 
+8) When done, issue the CTRL-C command in the same terminal you opened in step 4
+9) Repeat steps 4-8 for future use.
+
 ```
 Product video:
 [![Video](https://img.youtube.com/vi/7opgy9BYt4Y/maxresdefault.jpg)](https://youtu.be/7opgy9BYt4Y)
