@@ -9,6 +9,8 @@ const firebaseConfig = {
   appId: "1:289529382507:web:8f35dd41f2ce3ac385132e",
 };
 const firebase = initializeApp(firebaseConfig);
+const storage = firebase.storage();
+
 test("signUp", () => {
   return firebase
     .auth()
